@@ -1,0 +1,16 @@
+The purpose of this program is to take a template file and replace any rss     #
+feeds with html. Feed urls are encapsulated with {{http://feed.rss}} and may 
+optionally specifiy a function to use in generating the HTML (eg: 
+{{http://feed.rss|simple}}).
+
+Currently the available display functions are:
+ * simple - (returns just the content of an entry in the feed)
+
+ - More to come
+
+Things you might need to run this:
+* Python
+* A Computer
+* python-feedparser - http://www.feedparser.org
+
+Suggested use: python stream.py >> ponies.html
