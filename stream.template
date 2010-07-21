@@ -1,0 +1,9 @@
+<html>
+    <head>
+        <title>My simple stream stuff</title>
+    </head>
+    <body>
+        <h1>Things I say</h1>
+        <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|simple}}</ul>
+    </body>
+</html>
