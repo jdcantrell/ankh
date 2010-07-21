@@ -5,5 +5,7 @@
     <body>
         <h1>Things I say</h1>
         <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|simple}}</ul>
+		<h1>Web things I like</h1>
+		<ul>{{http://feeds.delicious.com/v2/rss/keare?count=5|link}}</ul>
     </body>
 </html>

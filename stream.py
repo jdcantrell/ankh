@@ -38,10 +38,16 @@ def variable(var, context):
 #End shameless code cut 'n paste
 
 def display_simple(entry, start=False, end=False):
-    return  "<li>%s" % entry.content[0].value
+    if entry.has_key('content'):
+        return  "<li>%s" % entry.content[0].value
+    return "<li>%s" % entry.title
+
+def display_link(entry, start=False, end=False):
+    return "<li><a href='%s'>%s</a>" % (entry.link,entry.title)
 
 display_functions = {
     "simple": display_simple,
+    "link": display_link,
 }
 
 def main():
