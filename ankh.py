@@ -3,11 +3,10 @@ import feedparser
 import re
 import codecs
 
-
 from ankh_displays import *
 
 def load_feed(url, display, count):
-    print "Parsing feed at %s..." % url
+    print "Parsing %s(%d entries)..." % (url, count)
     feed = feedparser.parse(url)
     s = []
     for entry in feed.entries[0:count]:
@@ -41,11 +40,10 @@ def variable(var, context):
         url, function = var.split("|", 1)
         if "|" in function:
             function, count = function.split("|",1)
+            count = int(count.strip())
     
     return load_feed(url, display_functions[function], count)
 #End shameless code cut 'n paste
-
-
 
 def main():
     parser = OptionParser()
