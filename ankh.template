@@ -26,12 +26,54 @@
 </div>
 <!-- End header -->
 <div id="page" class="container_24">
-        <h1>Things I say</h1>
-        <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|simple}}</ul>
+    <div class="grid_8">
+        <h1>Things I've said</h1>
+        <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|identica|4}}</ul>
+    </div>
+    <div class="grid_8">
 		<h1>Places I've been</h1>
-		<ul>{{http://feeds.delicious.com/v2/rss/keare?count=5|link}}</ul>
-		<h1>Videos I liked</h1>
-		<ul>{{http://vimeo.com/user1669086/likes/rss|vimeo}}</ul>
+		<ul>{{http://feeds.delicious.com/v2/rss/keare?count=5|delicious}}</ul>
+    </div>
+    <div class="grid_8">
+		<h1>Videos I like</h1>
+		<ul>{{http://vimeo.com/user1669086/likes/rss|vimeo|1}}</ul>
+    </div>
+    <div class="grid_24">
+        <h1>Sites I like to read</h1>
+    </div>
+    <div class="grid_8">
+        <h2>Free Gamer</h2>
+        <ul>{{http://freegamer.blogspot.com/feeds/posts/default?alt=rss|link}}</ul>
+        <h2>Gaffer on Games </h2>
+        <ul>{{http://gafferongames.com/feed/|link}}</ul>
+        <h2>Rock Paper Shotgun</h2>
+        <ul>{{http://feeds.feedburner.com/RockPaperShotgun|link}}</ul>
+        <h2>Grumpy Gamer</h2>
+        <ul>{{http://grumpygamer.com/rss2.0|link}}</ul>
+    </div>
+    <!--middle column -->
+    <div class="grid_8">
+        <h2>Gnome's Lair</h2>
+        <ul>{{http://feeds.feedburner.com/ARandomGnomesRandomLair|link}}</ul>
+        <h2>Michael Lesko</h2>
+        <ul>{{http://www.michaellesko.net/blog/?feed=rss2|link}}</ul>
+        <h2>At the Keyboard</h2>
+        <ul>{{http://www.littlehart.net/atthekeyboard/feed/|link}}</ul>
+        <h2>Ars Technica: Open Source</h2>
+        <ul>{{http://feeds.arstechnica.com/arstechnica/open-source/|link}}</ul>
+
+    </div>
+    <!-- right column -->
+    <div class="grid_8">
+        <h2>Puppy Games</h2>
+        <ul>{{http://www.puppygames.net/blog/?feed=rss2|link}}</ul>
+        <h2>Wil Wheaton</h2>
+        <ul>{{http://feeds.feedburner.com/wwdn|link}}</ul>
+        <h2>Justin Dugger</h2>
+        <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
+        <h2>Ned Batchelder</h2>
+        <ul>{{http://nedbatchelder.com/blog/rss.xml|link}}</ul>
+    </div>
 <!-- feeds -->
     </body>
 </html>
