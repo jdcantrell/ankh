@@ -47,11 +47,11 @@ def variable(var, context):
 
 def main():
     parser = OptionParser()
-    parser.add_option("-t","--template", dest="template", help="Template \
-        file to load. Defaults to \"ankh.template\"", \
+    parser.add_option("-t","--template", dest="template", \
+        help="Template file to load. Defaults to ankh.template", \
         default = "ankh.template")
-    parser.add_option("-o","--outfile", dest="outfile", help="File to save \
-        the parsed template and feeds to. Defaults to \"ankh.html\"", \
+    parser.add_option("-o","--outfile", dest="outfile", \
+        help="File to save the parsed template and feeds to. Defaults to ankh.html", \
         default="ankh.html")
 
     options, args = parser.parse_args()
@@ -62,7 +62,6 @@ def main():
     output = render(template, {})
     outfile = codecs.open(options.outfile,"w","utf-8")
     outfile.write(u''.join(output))
-
 
 if __name__ == "__main__":
     main()

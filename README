@@ -1,16 +1,23 @@
 The purpose of this program is to take a template file and replace any rss     #
 feeds with html. Feed urls are encapsulated with {{http://feed.rss}} and may 
 optionally specifiy a function to use in generating the HTML (eg: 
-{{http://feed.rss|simple}}).
+{{http://feed/atom|simple}}) and also a number to specify how many entries 
+to display (eg: {{http://feeds/rss|link|20}}).
 
 Currently the available display functions are:
  * simple - (returns just the content of an entry in the feed)
+ * link - display the title and a url to the post
+ * delicious - display the link and the summary
+ * identica - display the time and text of post
+ * vimeo - display the actual video 
 
- - More to come
+All the above displays will echo out a leading <li> tag. If you want to
+add your own custom display, just add it in the ankh_displays.py file and
+be sure to add it to the display_functions list.
 
 Things you might need to run this:
 * Python
 * A Computer
 * python-feedparser - http://www.feedparser.org
 
-Suggested use: python stream.py >> ponies.html
+Suggested use: python -t ankh.template -o ankh.template
