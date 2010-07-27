@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>My simple stream stuff</title>
+        <link rel="stylesheet" type="text/css" href="reset.css">
+        <link rel="stylesheet" type="text/css" href="text.css">
+        <link rel="stylesheet" type="text/css" href="960_24_col.css">
+        <link rel="stylesheet" type="text/css" href="ankh.css">
+    </head>
+    <body>
+<!-- Header -->
+<div id="header" role="banner">
+	<div class="container_24">
+			<h1><a href="http://john.notsoevil.net">Ankh</a></h1>
+			<div class="description">here is my text</div>
+	</div>
+</div>
+<div id="access" role="navigation">
+	<div class="container_24">
+        <div class="menu-header">
+            <ul class="menu">
+                <li class="menu-item"><a href="#">Hello friends menu here much?</a>
+            </ul>
+        </div>
+	</div>
+</div>
+<!-- End header -->
+<div id="page" class="container_24">
+        <h1>Things I say</h1>
+        <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|simple}}</ul>
+		<h1>Places I've been</h1>
+		<ul>{{http://feeds.delicious.com/v2/rss/keare?count=5|link}}</ul>
+		<h1>Videos I liked</h1>
+		<ul>{{http://vimeo.com/user1669086/likes/rss|vimeo}}</ul>
+<!-- feeds -->
+    </body>
+</html>
