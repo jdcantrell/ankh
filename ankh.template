@@ -28,15 +28,15 @@
 <div id="page" class="container_24">
     <div class="grid_8">
         <h1>Things I've said</h1>
-        <ul>{{http://identi.ca/api/statuses/user_timeline/38307.atom|identica|4}}</ul>
+        <ul id="identica">{{http://identi.ca/api/statuses/user_timeline/38307.atom|identica|4}}</ul>
     </div>
     <div class="grid_8">
 		<h1>Places I've been</h1>
-		<ul>{{http://feeds.delicious.com/v2/rss/keare?count=5|delicious}}</ul>
+		<ul id="delicious">{{http://feeds.delicious.com/v2/rss/keare?count=5|delicious}}</ul>
     </div>
     <div class="grid_8">
 		<h1>Videos I like</h1>
-		<ul>{{http://vimeo.com/user1669086/likes/rss|vimeo|1}}</ul>
+		<ul id="videos">{{http://vimeo.com/user1669086/likes/rss|vimeo|1}}</ul>
     </div>
     <div class="grid_24">
         <h1>Sites I like to read</h1>
@@ -55,8 +55,6 @@
     <div class="grid_8">
         <h2>Gnome's Lair</h2>
         <ul>{{http://feeds.feedburner.com/ARandomGnomesRandomLair|link}}</ul>
-        <h2>Michael Lesko</h2>
-        <ul>{{http://www.michaellesko.net/blog/?feed=rss2|link}}</ul>
         <h2>At the Keyboard</h2>
         <ul>{{http://www.littlehart.net/atthekeyboard/feed/|link}}</ul>
         <h2>Ars Technica: Open Source</h2>
@@ -69,10 +67,40 @@
         <ul>{{http://www.puppygames.net/blog/?feed=rss2|link}}</ul>
         <h2>Wil Wheaton</h2>
         <ul>{{http://feeds.feedburner.com/wwdn|link}}</ul>
-        <h2>Justin Dugger</h2>
-        <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
         <h2>Ned Batchelder</h2>
         <ul>{{http://nedbatchelder.com/blog/rss.xml|link}}</ul>
+    </div>
+    <div class="grid_24">
+        <h1>Family and Friends</h1>
+    </div>
+	<div class="grid_8">
+		<h2>Jamie</h2>
+		<ul>{{http://www.jamiecantrell.com/feed/|link}}</ul>
+		<h2>Lily Feather Press</h2>
+		<ul>{{http://www.lilyfeatherpress.com/?feed=rss2|link}}</ul>
+	</div>
+	<div class="grid_8">
+        <h2>Michael Lesko</h2>
+        <ul>{{http://www.michaellesko.net/blog/?feed=rss2|link}}</ul>
+	</div>
+	<div class="grid_8">
+        <h2>Justin Dugger</h2>
+        <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
+	</div>
+    <div class="grid_24">
+        <h1>NotSoEvil.net</h1>
+	</div>
+	<div class="grid_8">
+		<h2>Allen</h2>
+		<ul>{{http://locke.notsoevil.net/?feed=rss2|link}}</ul>
+	</div>
+	<div class="grid_8">
+		<h2>John</h2>
+		<ul>{{http://notsoevil.net/?feed=rss2|link}}</ul>
+	</div>
+	<div class="grid_8">
+		<h2>Plasma</h2>
+		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
     </div>
 <!-- feeds -->
     </body>

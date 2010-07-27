@@ -15,6 +15,13 @@ body {
 }
 #page li {
     margin:0;
+	height:20px;
+	overflow:hidden;
+}
+#identica li, #delicious li,#videos li {
+    margin:0;
+	height:auto;
+	overflow:hidden;
 }
 #page h1 {
     margin-bottom:5px;
@@ -122,3 +129,6 @@ div.menu li {
 	color:#fff;
 }
 /* end menu styles */
+
+a {text-decoration:none}
+a:hover {text-decoration:underline}
