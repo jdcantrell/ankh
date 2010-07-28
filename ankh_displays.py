@@ -26,8 +26,8 @@ def display_delicious(entry):
     return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
 
 def display_identica(entry):
-        return  u'<li>%s <span class="entry-meta">%s</span>' % \
-            (entry.content[0].value, time.strftime("%a, %B %d, %Y", \
+        return  u'<li>%s <div class="entry-meta">%s</div>' % \
+                (entry.content[0].value, time.strftime("at %I:%M %P on %A, %B %d, %Y", \
                                                         entry.date_parsed))
 
 

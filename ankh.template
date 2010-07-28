@@ -28,14 +28,17 @@
 <div id="page" class="container_24">
     <div class="grid_8">
         <h1>Things I've said</h1>
+		<div class="at-link">on <a href="http://indenti.ca/keare">Identi.ca</a></div>
         <ul id="identica">{{http://identi.ca/api/statuses/user_timeline/38307.atom|identica|4}}</ul>
     </div>
     <div class="grid_8">
 		<h1>Places I've been</h1>
+		<div class="at-link">on <a href="http://delicious.com/keare">Delicous</a></div>
 		<ul id="delicious">{{http://feeds.delicious.com/v2/rss/keare?count=5|delicious}}</ul>
     </div>
     <div class="grid_8">
-		<h1>Videos I like</h1>
+		<h1>Videos I've liked</h1>
+		<div class="at-link">on <a href="http://vimeo.com/user1669086/likes">Vimeo</a></div>
 		<ul id="videos">{{http://vimeo.com/user1669086/likes/rss|vimeo|1}}</ul>
     </div>
     <div class="grid_24">
@@ -59,6 +62,8 @@
         <ul>{{http://www.littlehart.net/atthekeyboard/feed/|link}}</ul>
         <h2>Ars Technica: Open Source</h2>
         <ul>{{http://feeds.arstechnica.com/arstechnica/open-source/|link}}</ul>
+		<h2>Plasma</h2>
+		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
 
     </div>
     <!-- right column -->
@@ -82,26 +87,19 @@
 	<div class="grid_8">
         <h2>Michael Lesko</h2>
         <ul>{{http://www.michaellesko.net/blog/?feed=rss2|link}}</ul>
-	</div>
-	<div class="grid_8">
-        <h2>Justin Dugger</h2>
-        <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
-	</div>
-    <div class="grid_24">
-        <h1>NotSoEvil.net</h1>
-	</div>
-	<div class="grid_8">
 		<h2>Allen</h2>
 		<ul>{{http://locke.notsoevil.net/?feed=rss2|link}}</ul>
 	</div>
 	<div class="grid_8">
+        <h2>Justin Dugger</h2>
+        <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
 		<h2>John</h2>
 		<ul>{{http://notsoevil.net/?feed=rss2|link}}</ul>
 	</div>
-	<div class="grid_8">
-		<h2>Plasma</h2>
-		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
-    </div>
 <!-- feeds -->
+	<div class="footer" style="clear:both">
+		<hr class="divider">
+		<div>Powered by <a href="http://github.com/keare/ankh">Ankh</a> - simple stream generator</div>
+	</div>
     </body>
 </html>

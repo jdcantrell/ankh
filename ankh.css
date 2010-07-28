@@ -23,8 +23,30 @@ body {
 	height:auto;
 	overflow:hidden;
 }
+#identica li {
+	margin:10px 0px
+}
+#delicious li {
+	margin:10px 0px
+}
+.at-link {
+	margin-bottom:5px;
+	margin-top:-10px;
+	text-indent:180px;
+	color:#888;
+	font-size:11px;
+}
+.entry-meta {
+	font-size:11px;
+	color:#888;
+	text-indent:10px;
+}
+.divider {
+	margin-bottom:2px;
+}
+.footer {margin-bottom:10px}
 #page h1 {
-    margin-bottom:5px;
+    margin-bottom:0px;
 	color:#3ea61d;
 }
 #page h2 {margin-bottom:0px; font-size:16px}
@@ -130,5 +152,5 @@ div.menu li {
 }
 /* end menu styles */
 
-a {text-decoration:none}
+a {text-decoration:none; color:#2f65b4}
 a:hover {text-decoration:underline}
