@@ -20,4 +20,6 @@ Things you might need to run this:
 * A Computer
 * python-feedparser - http://www.feedparser.org
 
-Suggested use: python -t ankh.template -o ankh.template
+Suggested use: python ankh.py -t ankh.template -o ankh.html
+
+Also works great in a cron :)

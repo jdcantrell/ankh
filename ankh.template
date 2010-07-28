@@ -99,7 +99,7 @@
 <!-- feeds -->
 	<div class="footer" style="clear:both">
 		<hr class="divider">
-		<div>Powered by <a href="http://github.com/keare/ankh">Ankh</a> - simple stream generator</div>
+		<div>Powered by <a href="http://github.com/keare/ankh">Ankh</a> - A simple lifestream generator.</div>
 	</div>
     </body>
 </html>
