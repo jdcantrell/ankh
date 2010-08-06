@@ -29,6 +29,13 @@ body {
 #delicious li {
 	margin:10px 0px
 }
+.links .hover {
+	position:absolute;
+	height:auto;
+	overflow:visible;
+	background-color:#fffbbe;
+	text-decoration:none !important;
+}
 .at-link {
 	margin-bottom:5px;
 	margin-top:-10px;
