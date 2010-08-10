@@ -53,6 +53,8 @@
         <ul>{{http://feeds.arstechnica.com/arstechnica/open-source/|link}}</ul>
     </div>
     <div class="grid_4 links">
+		<h2>Google Testing Blog</h2>
+		<ul>{{http://feeds.feedburner.com/blogspot/RLXA|link}}</ul>
 		<h2>Plasma</h2>
 		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
     </div>
