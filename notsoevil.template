@@ -49,8 +49,8 @@
     <div class="grid_4 links">
         <h2>At the Keyboard</h2>
         <ul>{{http://www.littlehart.net/atthekeyboard/feed/|link}}</ul>
-        <h2>Ars Technica: Open Source</h2>
-        <ul>{{http://feeds.arstechnica.com/arstechnica/open-source/|link}}</ul>
+        <h2>Hacker News</h2>
+        <ul>{{http://news.ycombinator.com/rss|link}}</ul>
     </div>
     <div class="grid_4 links">
 		<h2>Google Testing Blog</h2>
@@ -103,8 +103,8 @@
     <div class="grid_4 links">
         <h2>Faith Hicks</h2>
 		<ul>{{http://smuu.livejournal.com/data/atom|link}}</ul>
-		<h2>DeviantArt Favorites</h2>
-		<ul>{{http://backend.deviantart.com/rss.xml?q=favby:Keare/2195205&type=deviation&offset=0|link}}</ul>
+		<!-- <h2>DeviantArt Favorites</h2>
+		<ul>{-{http://backend.deviantart.com/rss.xml?q=favby:Keare/2195205&type=deviation&offset=0|link}-}</ul> -->
     </div>
     <div class="grid_12">
         <h1>Family and Friends</h1>
