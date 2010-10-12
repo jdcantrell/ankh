@@ -22,6 +22,7 @@
             <ul class="menu">
                 <li class="menu-item"><a href="http://notsoevil.net/about">About</a>
                 <li class="menu-item"><a href="http://notsoevil.net/projects">Projects</a>
+                <li class="menu-item current_page_item"><a href="http://notsoevil.net/stream">Web Stream</a>
             </ul>
         </div>
 	</div>
@@ -82,8 +83,8 @@
     <div class="grid_4 links">
         <h2>Rock Paper Shotgun</h2>
         <ul>{{http://feeds.feedburner.com/RockPaperShotgun|link}}</ul>
-        <h2>Grumpy Gamer</h2>
-        <ul>{{http://grumpygamer.com/rss2.0|link}}</ul>
+        <h2>Wolfire Games</h2>
+        <ul>{{http://feeds.wolfire.com/WolfireGames|link}}</ul>
     </div>
     <div class="grid_12">
         <h1>Art and Interests</h1>
