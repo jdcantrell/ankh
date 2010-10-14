@@ -51,7 +51,7 @@
         <h2>At the Keyboard</h2>
         <ul>{{http://www.littlehart.net/atthekeyboard/feed/|link}}</ul>
         <h2>Hacker News</h2>
-        <ul>{{http://news.ycombinator.com/rss|link}}</ul>
+        <ul>{{http://news.ycombinator.com/rss|hn}}</ul>
     </div>
     <div class="grid_4 links">
 		<h2>Google Testing Blog</h2>
@@ -138,14 +138,12 @@
 <script type="text/javascript" src="http://static.notsoevil.net/intones/js/jquery-1.3.2.js"></script>
 <script type="text/javascript">
 	jQuery(document).ready(function() {
-		$('a').hover(
-			function(e) {
-				$(this).addClass("hover")
-			},
-			function (e) {
-				$(this).removeClass("hover")
-			}
-		)
+		$('.links a').bind('mouseenter', function(e) {
+			$(this).parents('div').addClass("hover")
+		})
+		$('.story').bind('mouseleave',function (e) {
+			$(this).removeClass('hover')
+		})
 	})
 </script>
 </body>

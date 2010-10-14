@@ -29,12 +29,26 @@ body {
 #delicious li {
 	margin:10px 0px
 }
-.links .hover {
+.links div {
+    padding:1px 3px;
+}
+.story.hover {
 	position:absolute;
 	height:auto;
 	overflow:visible;
-	background-color:#fffbbe;
+	background-color:#e2eeff;
+    border:1px solid #afcaef;
+    padding:0px 2px;
+    z-index:10000;
 	text-decoration:none !important;
+	box-shadow: 3px 3px 5px rgba(0,0,0,0.6);
+	-moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.6);
+	-webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.6);
+}
+.comment-link {float:right; font-size:12px;padding-left:16px;
+    background-image:url(comment.png);
+    background-position:left center;
+    background-repeat:no-repeat;
 }
 .at-link {
 	margin-bottom:5px;
