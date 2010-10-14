@@ -10,7 +10,7 @@ def display_simple(entry):
 def display_link(entry):
     if entry.title == u'':
         entry.title = u'Untitled'
-    return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
+    return u'<li><div class="story"><a href="%s">%s</a></div>' % (entry.link, entry.title)
 
 
 def display_vimeo(entry):
@@ -40,6 +40,13 @@ def display_identica(entry):
         entry.content[0].value, time.strftime("at %I:%M %P on %A, %B %d, %Y",
         entry.date_parsed))
 
+
+def display_hn(entry):
+    if entry.title == u'':
+        entry.title = u'Untitled'
+    return u'<li><div class="story"><a href="%s">%s</a><div class="details"> \
+        <a class="comment-link" href="%s">Comments</a></div></div>' % \
+        (entry.link, entry.title, entry.comments)
 #Add in custom displays below, be sure to add them to the display_functions
 #list as well!
 display_functions = {
@@ -48,4 +55,5 @@ display_functions = {
     "vimeo": display_vimeo,
     "delicious": display_delicious,
     "identica": display_identica,
+    "hn": display_hn,
 }

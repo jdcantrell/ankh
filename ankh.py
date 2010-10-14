@@ -11,10 +11,11 @@ def load_feed(url, display, count, options):
         print "Parsing %s(%d entries)..." % (url, count)
 
     feed = feedparser.parse(url)
-    s = []
+    s = ['']
     for entry in feed.entries[0:count]:
         s.append(display(entry))
-    return u''.join(s)
+    s.append('')
+    return u'\n\t\t\t'.join(s)
 
 
 #django simple template
