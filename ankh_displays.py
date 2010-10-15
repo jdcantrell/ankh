@@ -1,19 +1,25 @@
+'''These are simple functions that parse a single entry in a feed and 
+return the html that should be displayed'''
 import time
 
 
 def display_simple(entry):
+    '''Display the title of an entry'''
     if 'content' in entry:
         return  u'<li>%s' % entry.content[0].value
     return u'<li>%s' % entry.title
 
 
 def display_link(entry):
+    '''Display the title wrapped in a link'''
     if entry.title == u'':
         entry.title = u'Untitled'
-    return u'<li><div class="story"><a href="%s">%s</a></div>' % (entry.link, entry.title)
+    return u'<li><div class="story"><a href="%s">%s</a></div>' % \
+            (entry.link, entry.title)
 
 
 def display_vimeo(entry):
+    '''Display the flash object for a vimeo feed entry'''
     return (u'<li><object width="310" height="232">'
             u'<param name="allowfullscreen" value="true">'
             u'<param name="allowscriptaccess" value="always">'
@@ -29,6 +35,7 @@ def display_vimeo(entry):
 
 
 def display_delicious(entry):
+    '''Display the link and description from a delicious feed'''
     if 'summary' in entry:
         return u'<li><a href="%s">%s</a> - %s' % (entry.link, entry.title, \
     entry.summary)
@@ -36,20 +43,24 @@ def display_delicious(entry):
 
 
 def display_identica(entry):
+    '''Display a identica dent with time'''
     return  u'<li>%s <div class="entry-meta">%s</div>' % (
         entry.content[0].value, time.strftime("at %I:%M %P on %A, %B %d, %Y",
         entry.date_parsed))
 
 
 def display_hn(entry):
+    '''Like display_link, but also add in a link to comments'''
     if entry.title == u'':
         entry.title = u'Untitled'
     return u'<li><div class="story"><a href="%s">%s</a><div class="details"> \
         <a class="comment-link" href="%s">Comments</a></div></div>' % \
         (entry.link, entry.title, entry.comments)
+
+
 #Add in custom displays below, be sure to add them to the display_functions
 #list as well!
-display_functions = {
+DISPLAY_FUNCTIONS = {
     "simple": display_simple,
     "link": display_link,
     "vimeo": display_vimeo,
