@@ -56,8 +56,8 @@
     <div class="grid_4 links">
 		<h2>Google Testing Blog</h2>
 		<ul>{{http://feeds.feedburner.com/blogspot/RLXA|link}}</ul>
-		<h2>Plasma</h2>
-		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
+        <h2>Reddit/Programming</h2>
+        <ul>{{http://www.reddit.com/r/programming/.rss|link}}</ul>
     </div>
     <div class="grid_4 links">
         <h2>Ned Batchelder</h2>
@@ -104,6 +104,8 @@
     <div class="grid_4 links">
         <h2>Faith Hicks</h2>
 		<ul>{{http://smuu.livejournal.com/data/atom|link}}</ul>
+        <h2>Reddit/Math</h2>
+        <ul>{{http://www.reddit.com/r/math/.rss|link}}</ul>
 		<!-- <h2>DeviantArt Favorites</h2>
 		<ul>{-{http://backend.deviantart.com/rss.xml?q=favby:Keare/2195205&type=deviation&offset=0|link}-}</ul> -->
     </div>
@@ -125,8 +127,8 @@
 	<div class="grid_4 links">
         <h2>Justin Dugger</h2>
         <ul>{{http://pwnguin.net/rss20.xml|link}}</ul>
-		<h2>John</h2>
-		<ul>{{http://notsoevil.net/?feed=rss2|link}}</ul>
+		<h2>Brad</h2>
+		<ul>{{http://feeds.feedburner.com/ThePlasmaEngine|link}}</ul>
 	</div>
 
 <!-- feeds -->
