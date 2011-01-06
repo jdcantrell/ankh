@@ -20,7 +20,7 @@ def display_link(entry):
 
 def display_vimeo(entry):
     '''Display the flash object for a vimeo feed entry'''
-    return (u'<li><object width="310" height="232">'
+    return (u'<li><object width="350" height="232">'
             u'<param name="allowfullscreen" value="true">'
             u'<param name="allowscriptaccess" value="always">'
             u'<param name="movie" value="%s&amp;server=vimeo.com&amp;'
@@ -29,7 +29,7 @@ def display_vimeo(entry):
             u'<embed src="%s&amp;server=vimeo.com&amp;show_title=1&amp;'
             u'show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1"'
             u'type="application/x-shockwave-flash" allowfullscreen="true"'
-            u'allowscriptaccess="always" width="310" height="232">'
+            u'allowscriptaccess="always" width="350" height="232">'
             u'</object>') % (entry.enclosures[0].href, \
                 entry.enclosures[0].href)
 

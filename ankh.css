@@ -2,6 +2,8 @@ body {
 	background-color:#fffffc;
 	font-size:14px;
 	color:#555;
+	font-family:Arial;
+	line-height: 21px;
 }
 
 #page {
@@ -69,6 +71,7 @@ body {
 #page h1 {
     margin-bottom:0px;
 	color:#3ea61d;
+    line-height:37px;
 }
 #page h2 {margin-bottom:0px; font-size:16px}
 
@@ -81,6 +84,7 @@ body {
 #header h1 {
 	font-size:44px;
 	padding:0px 0px;
+    line-height:66px;
 	font-weight:normal;
 	margin-bottom:0
 }
@@ -96,10 +100,8 @@ body {
 #access {
 	background-color:#2a2a2a;
 	padding-bottom:2px;
-	width:100%;
 	margin: 0 auto;
 	display:block;
-	float:left;
 }
 .menu li {margin: 0px}
 #access .menu-header,
