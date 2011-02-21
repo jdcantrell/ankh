@@ -52,8 +52,8 @@
         </div>
         <div class="fourcol">
             <h1>Places I've been</h1>
-            <div class="at-link">on <a href="http://delicious.com/keare">Delicous</a></div>
-            <ul id="delicious">{{http://feeds.delicious.com/v2/rss/keare?count=5|delicious}}</ul>
+            <div class="at-link">on <a href="http://delicious.com/jdcantrell">Delicous</a></div>
+            <ul id="delicious">{{http://feeds.delicious.com/v2/rss/jdcantrell?count=5|delicious}}</ul>
         </div>
         <div class="fourcol last">
             <h1>Videos I've liked</h1>
@@ -125,7 +125,7 @@
         </div>
         <div class="fourcol links">
             <h2>Andy Helms</h2>
-            <ul>{{http://bangalores.livejournal.com/data/atom|link}}</ul>
+            <ul>{{http://oktotally.tumblr.com/rss|link}}</ul>
             <h2>8-Bit Peoples</h2>
             <ul>{{http://www.8bitpeoples.com/feed/feed.rss|link}}</ul>
         </div>
