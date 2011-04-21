@@ -57,6 +57,17 @@ def display_hn(entry):
         <a class="comment-link" href="%s">Comments</a></div></div>' % \
         (entry.link, entry.title, entry.comments)
 
+def display_pinboard(entry):
+    #if title does not have [toread] in it
+    if entry.title[0:8] != u'[toread]':
+        if 'description' in entry:
+            return u'<li><a href="%s">%s</a> - %s' % \
+                (entry.link, entry.title, entry.description)
+        else:
+            return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
+    return u''
+#display title with link, followed by description if set
+
 
 #Add in custom displays below, be sure to add them to the display_functions
 #list as well!
@@ -65,6 +76,7 @@ DISPLAY_FUNCTIONS = {
     "link": display_link,
     "vimeo": display_vimeo,
     "delicious": display_delicious,
+    "pinboard": display_pinboard,
     "identica": display_identica,
     "hn": display_hn,
 }

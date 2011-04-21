@@ -20,7 +20,7 @@ body {
 	height:20px;
 	overflow:hidden;
 }
-#identica li, #delicious li,#videos li {
+#identica li, #pinboard li,#videos li {
     margin:0;
 	height:auto;
 	overflow:hidden;

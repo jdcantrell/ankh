@@ -52,8 +52,8 @@
         </div>
         <div class="fourcol">
             <h1>Places I've been</h1>
-            <div class="at-link">on <a href="http://delicious.com/jdcantrell">Delicous</a></div>
-            <ul id="delicious">{{http://feeds.delicious.com/v2/rss/jdcantrell?count=5|delicious}}</ul>
+            <div class="at-link">on <a href="http://pinboard.in/jdcantrell">Delicous</a></div>
+            <ul id="pinboard">{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|5}}</ul>
         </div>
         <div class="fourcol last">
             <h1>Videos I've liked</h1>
