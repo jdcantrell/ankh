@@ -1,6 +1,7 @@
 '''These are simple functions that parse a single entry in a feed and 
 return the html that should be displayed'''
 import time
+import re
 
 
 def display_simple(entry):
@@ -33,6 +34,21 @@ def display_vimeo(entry):
             u'</object>') % (entry.enclosures[0].href, \
                 entry.enclosures[0].href)
 
+def display_show_ago(entry):
+    '''Display the entry with time posted prefixed'''
+    ago = time.mktime(time.localtime()) - time.mktime(entry.date_parsed)
+    if ago < 3600:
+        ago_str = u'NOW'
+    elif ago < 43200:
+        ago_str = u'%dh' % round(ago / 3600)
+    else:
+        ago_str = '%dd' % round(ago / 86400)
+
+    if entry.title == u'':
+        entry.title = u'Untitled'
+
+    return u'<li><div class="story"><span class="post-date">%s</span> <a href="%s">%s</a></div>' % \
+            (ago_str, entry.link, entry.title)
 
 def display_delicious(entry):
     '''Display the link and description from a delicious feed'''
@@ -48,6 +64,11 @@ def display_identica(entry):
         entry.content[0].value, time.strftime("at %I:%M %P on %A, %B %d, %Y",
         entry.date_parsed))
 
+def display_twitter(entry):
+    '''Display a twitter dent with time'''
+    return  u'<li>%s <div class="twitter-meta">%s</div>' % (
+        re.sub(r'^[\w\d]*: ', '', entry.content[0].value), time.strftime("at %I:%M %P on %A, %B %d, %Y",
+        entry.date_parsed))
 
 def display_hn(entry):
     '''Like display_link, but also add in a link to comments'''
@@ -78,5 +99,7 @@ DISPLAY_FUNCTIONS = {
     "delicious": display_delicious,
     "pinboard": display_pinboard,
     "identica": display_identica,
+    "twitter": display_twitter,
     "hn": display_hn,
+    "show_ago": display_show_ago,
 }
