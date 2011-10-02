@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Some Maybe Interesting Projects</title>
+    <title>Things I read</title>
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta http-equiv="content-language" content="en" />
+
     <link rel="icon" type="image/png" href="/images/favicon.png">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-    <!-- 1140px Grid styles for IE -->
     <!--[if lte IE 9]><link rel="stylesheet" href="stylesheets/ie.css" type="text/css" media="screen" /><![endif]-->
-    <!-- The 1140px Grid - http://cssgrid.net/ -->
 
     <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="/stylesheets/print.css" type="text/css" media="print" />
 
     <!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
     <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   </head>
   <body>
@@ -35,16 +35,22 @@
     <div class="container">
       <div class="row">
         <div class="fourcol">
-          <h1>Things I've said</h1>
-          <ul id="twitter">{{https://api.twitter.com/1/statuses/user_timeline.xml?include_entities=true&include_rts=true&screen_name=goodrobot_jd&count=5}}</ul>
-        </div>
-        <div class="fourcol">
           <h1>Places I've been</h1>
+
           <div class="at-link">on <a href="http://pinboard.in/u:jdcantrell">Pinboard</a></div>
           <ul id="pinboard">{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|5}}</ul>
         </div>
-        <div class="fourcol last">
-          <h1>Something should go here?</h1>
+        <div class="fourcol">
+          <h1>140byte thoughts</h1>
+          <div class="at-link">on <a href="http://twitter.com/goodrobot_jd">Twitter</a></div>
+          <ul id="twitter">{{http://api.twitter.com/statuses/user_timeline.atom?include_entities=true&include_rts=true&screen_name=goodrobot_jd&count=5|twitter|3}}</ul>
+        </div>
+        <div class="fourcol links last">
+          <h1>Some links</h1>
+          <ul>
+
+            {{http://gamestorm.tumblr.com/rss|show_ago|2}}
+          </ul>
         </div>
       </div>
       <div class="row">
