@@ -7,20 +7,6 @@ import codecs
 
 import ankh_displays 
 
-def load_feed(url, display, count, options):
-    '''Uses feedparser to fetch feeds and parse through the correct display
-    function'''
-    if options.verbose:
-        print "Parsing %s(%d entries)..." % (url, count)
-
-    feed = feedparser.parse(url)
-    output = ['']
-    for entry in feed.entries[0:count]:
-        output.append(display(entry))
-    output.append('')
-    return u'\n\t\t\t'.join(output)
-
-
 def render(template, options):
     '''based off http://effbot.org/zone/django-simple-template.htm
     parses jinja2 like template tags of the form {{url|fn|count}}'''
@@ -53,6 +39,7 @@ def variable(var, options):
         if "|" in function:
             function, count = function.split("|", 1)
             count = int(count.strip())
+    return ankh_displays.DISPLAY_FUNCTIONS[function](url, count, options)
     return load_feed(url, ankh_displays.DISPLAY_FUNCTIONS[function], \
             count, options)
 #End shameless code cut 'n paste

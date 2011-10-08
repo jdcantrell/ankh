@@ -1,17 +1,36 @@
 '''These are simple functions that parse a single entry in a feed and 
 return the html that should be displayed'''
+import feedparser
 import time
 import re
 
+def parse_feed(fn):
+  '''A decorator for displays that only need a single parsed item from 
+  feedparser'''
+  def new(url, count, options):
+    '''Uses feedparser to fetch feeds and parse through the correct display
+    function'''
+    if options.verbose:
+        print "Parsing %s(%d entries)..." % (url, count)
 
-def display_simple(entry):
+    feed = feedparser.parse(url)
+    output = ['']
+    for entry in feed.entries[0:count]:
+        output.append(fn(entry, feed))
+    output.append('')
+    return u'\n\t\t\t'.join(output)
+  return new
+
+@parse_feed
+def display_simple(entry, feed):
     '''Display the title of an entry'''
     if 'content' in entry:
         return  u'<li>%s' % entry.content[0].value
     return u'<li>%s' % entry.title
 
 
-def display_link(entry):
+@parse_feed
+def display_link(entry, feed):
     '''Display the title wrapped in a link'''
     if entry.title == u'':
         entry.title = u'Untitled'
@@ -19,7 +38,8 @@ def display_link(entry):
             (entry.link, entry.title)
 
 
-def display_vimeo(entry):
+@parse_feed
+def display_vimeo(entry, feed):
     '''Display the flash object for a vimeo feed entry'''
     return (u'<li><object width="350" height="232">'
             u'<param name="allowfullscreen" value="true">'
@@ -34,23 +54,54 @@ def display_vimeo(entry):
             u'</object>') % (entry.enclosures[0].href, \
                 entry.enclosures[0].href)
 
-def display_show_ago(entry):
+def display_show_ago(urls, count, options):
+    urls = re.sub(r'\s','', urls)
+    urls = urls.split(',')
     '''Display the entry with time posted prefixed'''
-    ago = time.mktime(time.localtime()) - time.mktime(entry.date_parsed)
-    if ago < 3600:
-        ago_str = u'NOW'
-    elif ago < 43200:
-        ago_str = u'%dh' % round(ago / 3600)
+    order = []
+    items = {}
+    for url in urls:
+      if options.verbose:
+          print "Parsing %s" % url 
+      feed = feedparser.parse(url)
+      if len(feed.entries):
+        entry = feed.entries[0]
+
+        ago = time.mktime(time.localtime()) - time.mktime(entry.date_parsed)
+        #unique key
+        while items.has_key(ago):
+          ago += .1
+
+        if ago < 3600:
+          ago_str = u'New!'
+        elif ago < 43200:
+          ago_str = u'%dh' % round(ago / 3600)
+        elif ago < 2419200:
+          ago_str = '%dd' % round(ago / 86400)
+        else:
+          ago_str = '%dm' % round(ago / 2419200)
+
+        if entry.title == u'':
+            entry.title = u'Untitled'
+
+        html = u'<li><div class="story"><span class="time-ago"><span class="post-date">%s</span></span> %s -  <a href="%s">%s</a></div>' % \
+                (ago_str, feed.feed.title, entry.link, entry.title)
+
+        order.append(ago)
+        items[ago] = html
+      html = '<ul class="link-list">'
+    if len(order):
+      order.sort()
+      for i in order:
+        html += items[i]
+      html += '</ul>'
+      return html
     else:
-        ago_str = '%dd' % round(ago / 86400)
+      return '<ul>Oh no, Captain Jack! We\'ve lost the interweb</ul>'
 
-    if entry.title == u'':
-        entry.title = u'Untitled'
 
-    return u'<li><div class="story"><span class="post-date">%s</span> <a href="%s">%s</a></div>' % \
-            (ago_str, entry.link, entry.title)
-
-def display_delicious(entry):
+@parse_feed
+def display_delicious(entry, feed):
     '''Display the link and description from a delicious feed'''
     if 'summary' in entry:
         return u'<li><a href="%s">%s</a> - %s' % (entry.link, entry.title, \
@@ -58,19 +109,22 @@ def display_delicious(entry):
     return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
 
 
-def display_identica(entry):
+@parse_feed
+def display_identica(entry, feed):
     '''Display a identica dent with time'''
     return  u'<li>%s <div class="entry-meta">%s</div>' % (
         entry.content[0].value, time.strftime("at %I:%M %P on %A, %B %d, %Y",
         entry.date_parsed))
 
-def display_twitter(entry):
+@parse_feed
+def display_twitter(entry, feed):
     '''Display a twitter dent with time'''
     return  u'<li>%s <div class="twitter-meta">%s</div>' % (
         re.sub(r'^[\w\d]*: ', '', entry.content[0].value), time.strftime("at %I:%M %P on %A, %B %d, %Y",
         entry.date_parsed))
 
-def display_hn(entry):
+@parse_feed
+def display_hn(entry, feed):
     '''Like display_link, but also add in a link to comments'''
     if entry.title == u'':
         entry.title = u'Untitled'
@@ -78,7 +132,8 @@ def display_hn(entry):
         <a class="comment-link" href="%s">Comments</a></div></div>' % \
         (entry.link, entry.title, entry.comments)
 
-def display_pinboard(entry):
+@parse_feed
+def display_pinboard(entry, feed):
     #if title does not have [toread] in it
     if entry.title[0:8] != u'[toread]':
         if 'description' in entry:
