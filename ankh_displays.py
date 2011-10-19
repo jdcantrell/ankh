@@ -74,18 +74,22 @@ def display_show_ago(urls, count, options):
 
         if ago < 3600:
           ago_str = u'New!'
+          ago_class = 'ago_new'
         elif ago < 43200:
           ago_str = u'%dh' % round(ago / 3600)
+          ago_class = 'ago_hours'
         elif ago < 2419200:
           ago_str = '%dd' % round(ago / 86400)
+          ago_class = 'ago_days'
         else:
           ago_str = '%dm' % round(ago / 2419200)
+          ago_class = 'ago_months'
 
         if entry.title == u'':
             entry.title = u'Untitled'
 
-        html = u'<li><div class="story"><span class="time-ago"><span class="post-date">%s</span></span> %s -  <a href="%s">%s</a></div>' % \
-                (ago_str, feed.feed.title, entry.link, entry.title)
+        html = u'<li><div class="story"><span class="time-ago"><span class="%s">%s</span></span> %s -  <a href="%s">%s</a></div>' % \
+                (ago_class, ago_str, feed.feed.title.split('-')[0], entry.link, entry.title)
 
         order.append(ago)
         items[ago] = html
