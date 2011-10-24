@@ -88,7 +88,7 @@ def display_show_ago(urls, count, options):
         if entry.title == u'':
             entry.title = u'Untitled'
 
-        html = u'<li><div class="story"><span class="time-ago"><span class="%s">%s</span></span> %s -  <a href="%s">%s</a></div>' % \
+        html = u'<li><div><span class="time-ago"><span class="%s">%s</span></span> %s -  <a href="%s">%s</a></div>' % \
                 (ago_class, ago_str, feed.feed.title.split('-')[0], entry.link, entry.title)
 
         order.append(ago)
