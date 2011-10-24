@@ -17,6 +17,8 @@
 
     <!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
     <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   </head>
   <body>
     <div id="header">
@@ -47,14 +49,6 @@
       </div>
       <div class="row">
         <div class="eightcol">
-          <h2>Gaming</h2>
-            {{http://gamestorm.tumblr.com/rss,
-            http://feeds.wolfire.com/WolfireGames,
-            http://gafferongames.com/feed/,
-            http://feeds.feedburner.com/ARandomGnomesRandomLair,
-            http://blog.metagames.co.uk/feed/,
-            http://freegamer.blogspot.com/feeds/posts/default?alt=rss|show_ago}}
-
           <h2>Coding</h2>
             {{http://www.littlehart.net/atthekeyboard/feed/,
             http://eli.thegreenplace.net/feed/,
@@ -62,6 +56,15 @@
             http://nedbatchelder.com/blog/rss.xml,
             http://programthis.net/feed/,
             http://blog.notdot.net/feeds/atom.xml|show_ago}}
+
+          <h2>Gaming</h2>
+            {{http://gamestorm.tumblr.com/rss,
+            http://feeds.wolfire.com/WolfireGames,
+            http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true,
+            http://feeds.feedburner.com/ARandomGnomesRandomLair,
+            http://blog.metagames.co.uk/feed/,
+            http://grumpygamer.com/rss2.0,
+            http://freegamer.blogspot.com/feeds/posts/default?alt=rss|show_ago}}
 
           <h2>Art and Interests</h2>
             {{http://feeds.feedburner.com/wwdn,
@@ -78,15 +81,20 @@
             http://www.lilyfeatherpress.com/?feed=rss2,
             http://www.michaellesko.net/blog/?feed=rss2,
             http://locke.notsoevil.net/?feed=rss2,
+            http://tumblr.whatupderek.com/rss,
             http://pwnguin.net/rss20.xml,
             http://feeds.feedburner.com/ThePlasmaEngine|show_ago}}
         </div>
         <div class="fourcol last">
-          <h2>Pinboard</h2>
-          <div class="at-link">on <a href="http://pinboard.in/u:jdcantrell">Pinboard</a></div>
+          <h2>
+            <a href="http://pinboard.in/u:jdcantrell"><img src="/images/site-icons/pinboard-32x32.png" style="vertical-align:bottom"></a>
+            Pinboard
+          </h2>
           <ul id="pinboard">{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|5}}</ul>
-          <h2>140byte thoughts</h2>
-          <div class="at-link">on <a href="http://twitter.com/goodrobot_jd">Twitter</a></div>
+          <h2>
+            <a href="http://twitter.com/goodrobot_jd"><img src="/images/site-icons/twitter-32x32.png" style="vertical-align:bottom"></a> 
+            140byte thoughts
+          </h2>
           <ul id="twitter">{{http://api.twitter.com/statuses/user_timeline.atom?include_entities=true&include_rts=true&screen_name=goodrobot_jd&count=5|twitter|5}}</ul>
         </div>
       </div>
