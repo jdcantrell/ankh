@@ -16,6 +16,7 @@ def parse_feed(fn):
     feed = feedparser.parse(url)
     output = ['']
     for entry in feed.entries[0:count]:
+        #Call passed in function and append the output
         output.append(fn(entry, feed))
     output.append('')
     return u'\n\t\t\t'.join(output)
