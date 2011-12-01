@@ -3,8 +3,8 @@ from fabric.api import local, run, cd
 from fabric.decorators import hosts
 from fabric.colors import green, blue, red
 
-code_dir = "~/goodrobot.net"
-stream_dir = "~/ankh"
+code_dir = "/home/jdcantrell/goodrobot.net"
+stream_dir = "/home/jdcantrell/ankh"
   
 
 def build():
