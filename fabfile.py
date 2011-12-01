@@ -1,7 +1,11 @@
 from __future__ import with_statement
 from fabric.api import local, run, cd
 from fabric.decorators import hosts
-from fabric.colors import blue, green
+from fabric.colors import green, blue, red
+
+code_dir = "~/goodrobot.net"
+stream_dir = "~/ankh"
+  
 
 def build():
   local("mkdir -p ../goodrobot.net/_site/stream/")
@@ -9,13 +13,24 @@ def build():
 
 @hosts('jdcantrell@goodrobot.net')
 def deploy():
-  code_dir = "~/goodrobot.net"
-  stream_dir = "~/ankh"
-  
   #re-gen the stream page on deploy
   with cd(stream_dir):
-    print(blue("Updating ankh and regenerating..."))
-    run("git pull")
+    print(blue("Updating codebase..."))
+    output = run("git pull")
+    if output.find("Already up-to-date") != -1:
+      print(red("No changes found to deploy"))
+    else:
+      _regen()
+
+@hosts('jdcantrell@goodrobot.net')
+def regen():
+  _regen()
+
+def _regen():
+  with cd(stream_dir):
+    print(blue("Generating page..."))
     run("mkdir -p %s/_site/stream" % code_dir)
     run("python ankh.py -t goodrobot.template.html -o %s/_site/stream/index.html -v" % code_dir)
-  print(green("Site has been successfully deployed: http://goodrobot.net"))
+    print(green("Page generated at http://goodrobot.net/stream"))
+
+
