@@ -68,7 +68,19 @@ def display_show_ago(urls, count, options):
       if len(feed.entries):
         entry = feed.entries[0]
 
-        ago = time.mktime(time.localtime()) - time.mktime(entry.date_parsed)
+
+        try:
+          published = entry.date_parsed
+        except AttributeError:
+          try:
+            published = entry.updated_parsed
+          except AttributeError:
+            try:
+              published = entry.published_parsed
+            except AttributeError:
+              published = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        ago = time.mktime(time.localtime()) - time.mktime(published)
         #unique key
         while items.has_key(ago):
           ago += .1
