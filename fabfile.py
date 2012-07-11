@@ -11,7 +11,7 @@ def build():
   local("mkdir -p ../goodrobot.net/_site/stream/")
   local("python ankh.py -t goodrobot.template.html -o ../goodrobot.net/_site/stream/index.html -v")
 
-@hosts('jdcantrell@goodrobot.net')
+@hosts('jd@goodrobot.net')
 def deploy():
   #re-gen the stream page on deploy
   with cd(stream_dir):
@@ -22,7 +22,7 @@ def deploy():
     else:
       _regen()
 
-@hosts('jdcantrell@goodrobot.net')
+@hosts('jd@goodrobot.net')
 def regen():
   _regen()
 
