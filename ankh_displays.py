@@ -3,6 +3,7 @@ return the html that should be displayed'''
 import feedparser
 import time
 import re
+import htmlentities
 
 def parse_feed(fn):
   '''A decorator for displays that only need a single parsed item from 
@@ -27,7 +28,7 @@ def display_simple(entry, feed):
     '''Display the title of an entry'''
     if 'content' in entry:
         return  u'<li>%s' % entry.content[0].value
-    return u'<li>%s' % entry.title
+    return u'<li>%s' % htmlentities.encode(entry.title)
 
 
 @parse_feed
@@ -36,7 +37,7 @@ def display_link(entry, feed):
     if entry.title == u'':
         entry.title = u'Untitled'
     return u'<li><div class="story"><a href="%s">%s</a></div>' % \
-            (entry.link, entry.title)
+            (entry.link, htmlentities.encode(entry.title))
 
 
 @parse_feed
@@ -102,7 +103,7 @@ def display_show_ago(urls, count, options):
             entry.title = u'Untitled'
 
         html = u'<li><div><span class="time-ago"><span class="%s">%s</span></span> <span class="feed-title">%s -</span>  <a href="%s">%s</a></div>' % \
-                (ago_class, ago_str, feed.feed.title.split('-')[0], entry.link, entry.title)
+                (ago_class, ago_str, feed.feed.title.split('-')[0], entry.link, htmlentities.encode(entry.title))
 
         order.append(ago)
         items[ago] = html
@@ -121,9 +122,9 @@ def display_show_ago(urls, count, options):
 def display_delicious(entry, feed):
     '''Display the link and description from a delicious feed'''
     if 'summary' in entry:
-        return u'<li><a href="%s">%s</a> - %s' % (entry.link, entry.title, \
+        return u'<li><a href="%s">%s</a> - %s' % (entry.link, htmlentities.encode(entry.title), \
     entry.summary)
-    return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
+    return u'<li><a href="%s">%s</a>' % (entry.link, htmlentities.encode(entry.title))
 
 
 @parse_feed
@@ -147,7 +148,7 @@ def display_hn(entry, feed):
         entry.title = u'Untitled'
     return u'<li><div class="story"><a href="%s">%s</a><div class="details"> \
         <a class="comment-link" href="%s">Comments</a></div></div>' % \
-        (entry.link, entry.title, entry.comments)
+        (entry.link, htmlentities.encode(entry.title), entry.comments)
 
 @parse_feed
 def display_pinboard(entry, feed):
@@ -155,9 +156,9 @@ def display_pinboard(entry, feed):
     if entry.title[0:8] != u'[toread]':
         if 'description' in entry:
             return u'<li><a href="%s">%s</a> - %s' % \
-                (entry.link, entry.title, entry.description)
+                (entry.link, htmlentities.encode(entry.title), entry.description)
         else:
-            return u'<li><a href="%s">%s</a>' % (entry.link, entry.title)
+            return u'<li><a href="%s">%s</a>' % (entry.link, htmlentities.encode(entry.title))
     return u''
 #display title with link, followed by description if set
 
