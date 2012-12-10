@@ -1,136 +1,94 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 <html>
   <head>
-    <title>Wall of Links</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta http-equiv="content-language" content="en" />
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-    <!--[if lte IE 9]><link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" /><![endif]-->
-    <link rel="stylesheet" href="/stylesheets/screen.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/stylesheets/external/pygments/default.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/stylesheets/external/pygments/python.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="/stylesheets/small.css" type="text/css" media="only screen and (max-width: 600px)" />
-
-    <!--css3-mediaqueries-js - http://code.google.com/p/css3-mediaqueries-js/ - Enables media queries in some unsupported browsers-->
-    <script type="text/javascript" src="js/css3-mediaqueries.js"></script>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <title>goodrobot.net</title>
+    <link rel="stylesheet" type="text/css" href="css/screen.css">
+    <link rel="stylesheet" type="text/css" href="css/stream.css">
+    <link href='http://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <div id="header">
-      <div class="site-logo">
-        <a href="/"><img src='/images/goodrobot_logo_ds3.png'></a>
-      </div>
-      <ul class="header-bar clearfix">
-        <li><a href="/about">about</a></li>
-        <li><a href="/">blog</a></li>
-        <li><a href="/stream">links</a></li>
-        <li><a href="/projects">projects</a></li>
-      </ul>
-    </div>
-    <div class="container ankh">
-      <div class="row">
-        <div class="fourcol links">
-          <h2>Hacker News</h2>
-          <ul>{{http://news.ycombinator.com/rss|hn}}</ul>
+    <div class="goodrobot">
+      <header id="header">
+        <img src='images/site/goodrobot.png'>
+      </header>
+      <div class="stream">
+        <div class="feeds">
+          <div class="feed">
+            <h2>Hacker News</h2>
+            <ul>{{http://news.ycombinator.com/rss|hn}}</ul>
+          </div>
+          <div class="feed">
+            <h2>Reddit/Programming</h2>
+            <ul>{{http://www.reddit.com/r/programming/.rss|link}}</ul>
+          </div>
+          <div class="feed">
+            <h2>Rock Paper Shotgun</h2>
+            <ul>{{http://feeds.feedburner.com/RockPaperShotgun|link}}</ul>
+          </div>
         </div>
-        <div class="fourcol links">
-          <h2>Reddit/Programming</h2>
-          <ul>{{http://www.reddit.com/r/programming/.rss|link}}</ul>
-        </div>
-        <div class="fourcol last links">
-          <h2>Rock Paper Shotgun</h2>
-          <ul>{{http://feeds.feedburner.com/RockPaperShotgun|link}}</ul>
-        </div>
-      </div>
-      <div class="row">
-        <div class="eightcol">
-          <h2>Coding</h2>
-            {{http://www.littlehart.net/atthekeyboard/feed/,
-            http://feeds.feedburner.com/theendeavour,
-            http://eli.thegreenplace.net/feed/,
-            http://feeds.feedburner.com/PerfectionKills,
-            http://nedbatchelder.com/blog/rss.xml,
-            http://www.lostdecadegames.com/rss.xml,
-            http://meyerweb.com/index.php?feed=rss2&scope=summary,
-            http://feeds.feedburner.com/alistapart/main|show_ago}}
+        <div class="other-links">
+          <div class="interest-links">
+            <h2>Coding</h2>
+              {{http://www.littlehart.net/atthekeyboard/feed/,
+              http://feeds.feedburner.com/theendeavour,
+              http://eli.thegreenplace.net/feed/,
+              http://feeds.feedburner.com/PerfectionKills,
+              http://nedbatchelder.com/blog/rss.xml,
+              http://www.lostdecadegames.com/rss.xml,
+              http://meyerweb.com/index.php?feed=rss2&scope=summary,
+              http://feeds.feedburner.com/alistapart/main|show_ago}}
 
-          <h2>Gaming</h2>
-            {{http://gamestorm.tumblr.com/rss,
-            http://feeds.feedburner.com/VenusPatrol,
-            http://feeds.wolfire.com/WolfireGames,
-            http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true,
-            http://feeds.feedburner.com/ARandomGnomesRandomLair,
-            http://blog.metagames.co.uk/feed/,
-            http://www.tigsource.com/feed/,
-            http://grumpygamer.com/rss2.0,
-            http://wasteland.inxile-entertainment.com/blog/feed/,
-            http://freegamer.blogspot.com/feeds/posts/default?alt=rss|show_ago}}
+            <h2>Gaming</h2>
+              {{http://gamestorm.tumblr.com/rss,
+              http://feeds.feedburner.com/VenusPatrol,
+              http://feeds.wolfire.com/WolfireGames,
+              http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true,
+              http://feeds.feedburner.com/ARandomGnomesRandomLair,
+              http://blog.metagames.co.uk/feed/,
+              http://www.tigsource.com/feed/,
+              http://grumpygamer.com/rss2.0,
+              http://wasteland.inxile-entertainment.com/blog/feed/,
+              http://freegamer.blogspot.com/feeds/posts/default?alt=rss|show_ago}}
 
-          <h2>Art and Interests</h2>
-            {{http://feeds.feedburner.com/wwdn,
-            http://blog.iso50.com/feed/,
-            http://blog.gamemusicbundle.com/rss,
-            http://magicalgametime.com/rss,
-            http://simoncottee.blogspot.com/feeds/posts/default,
-            http://oktotally.tumblr.com/rss,
-            http://www.8bitpeoples.com/feed/feed.rss,
-            http://alarmingpredicament.tumblr.com/rss,
-            http://smuu.livejournal.com/data/atom|show_ago}}
+            <h2>Art and Interests</h2>
+              {{http://feeds.feedburner.com/wwdn,
+              http://blog.iso50.com/feed/,
+              http://blog.gamemusicbundle.com/rss,
+              http://magicalgametime.com/rss,
+              http://simoncottee.blogspot.com/feeds/posts/default,
+              http://oktotally.tumblr.com/rss,
+              http://www.8bitpeoples.com/feed/feed.rss,
+              http://alarmingpredicament.tumblr.com/rss,
+              http://smuu.livejournal.com/data/atom|show_ago}}
 
-          <h2>Friends and Families</h2>
-            {{http://www.jamiecantrell.com/feed/,
-            http://www.lilyfeatherpress.com/?feed=rss2,
-            http://www.michaellesko.net/blog/?feed=rss2,
-            http://locke.notsoevil.net/?feed=rss2,
-            http://tumblr.whatupderek.com/rss,
-            http://pwnguin.net/rss20.xml,
-            http://feeds.feedburner.com/ThePlasmaEngine|show_ago}}
-        </div>
-        <div class="fourcol last">
-          <h2>
-            <a href="http://pinboard.in/u:jdcantrell"><img src="/images/site-icons/pinboard-32x32.png" style="vertical-align:bottom"></a>
-            Pinboard
-          </h2>
-          <ul id="pinboard">{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|10}}</ul>
+            <h2>Friends and Families</h2>
+              {{http://www.michaellesko.net/blog/?feed=rss2,
+              http://locke.notsoevil.net/?feed=rss2,
+              http://whatupderek.com/rss,
+              http://pwnguin.net/rss20.xml,
+              http://feeds.feedburner.com/ThePlasmaEngine|show_ago}}
+            </div>
+          <div class="pinboard">
+            <h2>Pinboard</h2> 
+            <ul>{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|10}}</ul>
+          </div>
         </div>
       </div>
     </div>
-
-    <div id="footer" class="container">
-      <div class="row">
-        <hr>
-        <span class="footer-text">
-          goodrobot.net is the digital playground for JD Cantrell 
-        </span>
-        <span class="footer-icons clearfix">
-
-          <a title="Creative Commons, Attribution Non-Commercial Share-Alike" class="creative-commons-icon" href="http://creativecommons.org/licenses/by-nc-sa/3.0/us/">Creative Commons</a>
-          <a class="rss-icon" href="http://goodrobot.net/atom.xml">Atom XML</a>
-          |
-          <a class="github-icon" href="http://github.com/jdcantrell">github</a>
-          <a class="google-plus-icon" href="http://plus.google.com/106872280900620766970/posts">google plus</a>
-          <a class="lastfm-icon" href="http://www.last.fm/user/goodrobot_jd">last.fm</a>
-          <a class="pinboard-icon" href="http://pinboard.in/u:jdcantrell">pinboard.in</a>
-          <a class="rdio-icon" href="http://rd.io/#/people/goodrobot">rdio.com</a>
-          <a class="twitter-icon" href="http://twitter.com/goodrobot_jd">twitter.com</a> 
-        </span>
-      </div>
-    </div>
-    <script type="text/javascript">
-      jQuery(document).ready(function() {
-        $('.story > a').bind('mouseenter', function(e) {
-          $(this).parent('div').addClass("hover")
-        })
-
-        $('.story').bind('mouseleave',function (e) {
-          $(this).removeClass('hover')
-        })
-      })
-    </script>
+      <footer>
+        <nav>
+          <ul>
+            <!-- <li><a href="/articles">Articles</a> -->
+            <li><a href="/projects">Projects</a>
+            <li><a href="/stream">Links</a>
+            <li><a href="/about">About</a>
+            <li><a href="/share">Stuff</a>
+        </nav>
+      </footer>
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+      <script>
+        $('.feed li a').bind('mouseover', function () { $(this).parent('li').addClass('link-card')});
+        $('.feed').on('mouseleave', '.link-card', function () { $(this).removeClass('link-card')});
+      </script>
   </body>
 </html>
