@@ -56,6 +56,9 @@ def main():
     parser.add_option("-v", "--verbose", dest="verbose", \
         help="Be verbose about what is going on", action="store_true",
         default=False)
+    parser.add_option("-c", "--cache", dest="cache", \
+        help="Store and read from cache", action="store_true",
+        default=False)
 
     options = parser.parse_args()[0]
 

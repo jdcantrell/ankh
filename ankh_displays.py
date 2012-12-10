@@ -4,6 +4,24 @@ import feedparser
 import time
 import re
 import htmlentities
+import pickle
+
+def get_feed(url, options):
+  if options.cache:
+    clean_url = url.replace("http://","").replace("/", "_");
+    try:
+      with open('./.ankh_cache/%s.pickle' % clean_url) as file:
+        feed = pickle.load(file)
+    except IOError as e:
+      feed = feedparser.parse(url)
+
+      #TODO: be more robust about broken feeds
+      if 'version' in feed:
+        with open('./.ankh_cache/%s.pickle' % clean_url, 'w') as file:
+          pickle.dump(feed, file)
+  else:
+    feed = feedparser.parse(url)
+  return feed
 
 def parse_feed(fn):
   '''A decorator for displays that only need a single parsed item from 
@@ -14,7 +32,8 @@ def parse_feed(fn):
     if options.verbose:
         print "Parsing %s(%d entries)..." % (url, count)
 
-    feed = feedparser.parse(url)
+    feed = get_feed(url, options)
+
     output = ['']
     for entry in feed.entries[0:count]:
         #Call passed in function and append the output
@@ -36,7 +55,7 @@ def display_link(entry, feed):
     '''Display the title wrapped in a link'''
     if entry.title == u'':
         entry.title = u'Untitled'
-    return u'<li><div class="story"><a href="%s">%s</a></div>' % \
+    return u'<li><a href="%s">%s</a>' % \
             (entry.link, htmlentities.encode(entry.title))
 
 
@@ -65,7 +84,7 @@ def display_show_ago(urls, count, options):
     for url in urls:
       if options.verbose:
           print "Parsing %s" % url 
-      feed = feedparser.parse(url)
+      feed = get_feed(url, options)
       if len(feed.entries):
         entry = feed.entries[0]
 
@@ -87,23 +106,19 @@ def display_show_ago(urls, count, options):
           ago += .1
 
         if ago < 3600:
-          ago_str = u'New!'
-          ago_class = 'ago_new'
+          ago_str = u'!!'
         elif ago < 43200:
           ago_str = u'%dh' % round(ago / 3600)
-          ago_class = 'ago_hours'
         elif ago < 2419200:
           ago_str = '%dd' % round(ago / 86400)
-          ago_class = 'ago_days'
         else:
           ago_str = '%dm' % round(ago / 2419200)
-          ago_class = 'ago_months'
 
         if entry.title == u'':
             entry.title = u'Untitled'
 
-        html = u'<li><div><span class="time-ago"><span class="%s">%s</span></span> <span class="feed-title">%s -</span>  <a href="%s">%s</a></div>' % \
-                (ago_class, ago_str, feed.feed.title.split('-')[0], entry.link, htmlentities.encode(entry.title))
+        html = u'<li><span class="time-ago">%s</span> <span class="feed-title">%s -</span>  <a href="%s">%s</a>' % \
+                (ago_str, feed.feed.title.split('-')[0], entry.link, htmlentities.encode(entry.title))
 
         order.append(ago)
         items[ago] = html
@@ -146,8 +161,8 @@ def display_hn(entry, feed):
     '''Like display_link, but also add in a link to comments'''
     if entry.title == u'':
         entry.title = u'Untitled'
-    return u'<li><div class="story"><a href="%s">%s</a><div class="details"> \
-        <a class="comment-link" href="%s">Comments</a></div></div>' % \
+    return u'<li><a href="%s">%s</a><div class="details"> \
+        <a class="comment-link" href="%s">Comments</a></div>' % \
         (entry.link, htmlentities.encode(entry.title), entry.comments)
 
 @parse_feed
