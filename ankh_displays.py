@@ -166,6 +166,18 @@ def display_hn(entry, feed):
         (entry.link, htmlentities.encode(entry.title), entry.comments)
 
 @parse_feed
+def display_reddit(entry, feed):
+    '''Display the title wrapped in a link'''
+    if entry.title == u'':
+        entry.title = u'Untitled'
+
+    urls = re.findall(r'href="([^"]+)"', entry.description) 
+    return u'<li><a href="%s">%s</a><div class="details"> \
+        <a class="comment-link" href="%s">Comments</a></div>' % \
+        (urls[1], htmlentities.encode(entry.title), entry.link)
+
+
+@parse_feed
 def display_pinboard(entry, feed):
     #if title does not have [toread] in it
     if entry.title[0:8] != u'[toread]':
@@ -189,5 +201,6 @@ DISPLAY_FUNCTIONS = {
     "identica": display_identica,
     "twitter": display_twitter,
     "hn": display_hn,
+    "reddit": display_reddit,
     "show_ago": display_show_ago,
 }
