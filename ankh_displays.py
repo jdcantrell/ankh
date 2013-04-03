@@ -55,7 +55,7 @@ def display_link(entry, feed):
     '''Display the title wrapped in a link'''
     if entry.title == u'':
         entry.title = u'Untitled'
-    return u'<li><a href="%s">%s</a>' % \
+    return u'<li><a class="link" href="%s">%s</a>' % \
             (entry.link, htmlentities.encode(entry.title))
 
 
@@ -106,19 +106,30 @@ def display_show_ago(urls, count, options):
           ago += .1
 
         if ago < 3600:
-          ago_str = u'!!'
+          ago_str = u'<i>0</i>New!'
         elif ago < 43200:
-          ago_str = u'%dh' % round(ago / 3600)
+          num = round(ago / 3600)
+          if num == 1:
+            ago_str = u'<i>%d</i>hour' % num
+          else:
+            ago_str = u'<i>%d</i>hours' % num
         elif ago < 2419200:
-          ago_str = '%dd' % round(ago / 86400)
+          num = round(ago / 86400)
+          if num == 1:
+            ago_str = '<i>%d</i>day' % num
+          else:
+            ago_str = '<i>%d</i>days' % num
         else:
-          ago_str = '%dm' % round(ago / 2419200)
+          ago_str = '<i>%d</i>months' % round(ago / 2419200)
 
         if entry.title == u'':
             entry.title = u'Untitled'
 
-        html = u'<li><span class="time-ago">%s</span> <span class="feed-title">%s -</span>  <a href="%s">%s</a>' % \
-                (ago_str, feed.feed.title.split('-')[0], entry.link, htmlentities.encode(entry.title))
+        html = u'<li> \
+            <a class="link" href="%s">%s <div class="feed-title">%s </div></a> \
+            <span class="time-ago">%s</span> \
+             </li>' % \
+                (entry.link, htmlentities.encode(entry.title), feed.feed.title.split('-')[0], ago_str)
 
         order.append(ago)
         items[ago] = html
@@ -160,10 +171,11 @@ def display_twitter(entry, feed):
 def display_hn(entry, feed):
     '''Like display_link, but also add in a link to comments'''
     if entry.title == u'':
-        entry.title = u'Untitled'
-    return u'<li><a href="%s">%s</a><div class="details"> \
-        <a class="comment-link" href="%s">Comments</a></div>' % \
-        (entry.link, htmlentities.encode(entry.title), entry.comments)
+      entry.title = u'Untitled'
+    return u'<li> \
+      <a class="link" href="%s">%s</a> \
+      <a class="comment" href="%s">Comments</a></li>' % \
+      (entry.link, htmlentities.encode(entry.title), entry.comments)
 
 @parse_feed
 def display_reddit(entry, feed):
@@ -172,8 +184,9 @@ def display_reddit(entry, feed):
         entry.title = u'Untitled'
 
     urls = re.findall(r'href="([^"]+)"', entry.description) 
-    return u'<li><a href="%s">%s</a><div class="details"> \
-        <a class="comment-link" href="%s">Comments</a></div>' % \
+    return u'<li> \
+        <a class="link" href="%s">%s</a>\
+        <a class="comment" href="%s">Comments</a></li>' % \
         (urls[1], htmlentities.encode(entry.title), entry.link)
 
 
@@ -182,10 +195,10 @@ def display_pinboard(entry, feed):
     #if title does not have [toread] in it
     if entry.title[0:8] != u'[toread]':
         if 'description' in entry:
-            return u'<li><a href="%s">%s</a> - %s' % \
+            return u'<li><a class="link" href="%s">%s <span class="description">%s</span></a>' % \
                 (entry.link, htmlentities.encode(entry.title), entry.description)
         else:
-            return u'<li><a href="%s">%s</a>' % (entry.link, htmlentities.encode(entry.title))
+            return u'<li><a class="link" href="%s">%s</a>' % (entry.link, htmlentities.encode(entry.title))
     return u''
 #display title with link, followed by description if set
 
