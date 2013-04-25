@@ -1,3 +1,14 @@
+{% macro time_entry(entry) -%}
+<li>
+  <a class="link" href="{{entry.link}}">{{entry.title}}
+    <div class="feed-title">{{entry.feed_title}}</div>
+  </a>
+  <span class="time-ago">
+    <i>{{entry.time_length}}</i>
+    {{entry.time_unit}}
+  </span>
+</li>
+{% endmacro %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -13,65 +24,126 @@
         <img src='/images/site/goodrobot.png' alt="goodrobot">
       </header>
       <div class="stream">
-        <div class="feed">
-          <h2>Hacker News</h2>
-          <ul class="comment-feed">{{http://news.ycombinator.com/rss|hn}}</ul>
-        </div>
 
-        <div class="feed">
-          <h2 class="fancy">Reddit/Programming</h2>
-          <ul class="comment-feed">{{http://www.reddit.com/r/programming/.rss|reddit}}</ul>
-        </div>
+        <ul class="feeds">
+          <li class="feed">
+            <h2>Hacker News</h2>
+            <ul class="comment-feed">
+              {% for entry in 'http://news.ycombinator.com/rss'|feed %}
+              <li>
+                <a class="link" href="{{entry.link}}">{{entry.title}}</a>
+                <a class="comment" href="{{entry.comments}}">Comments</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
 
-        <div class="feed">
-          <h2>Rock Paper Shotgun</h2>
-          <ul>{{http://feeds.feedburner.com/RockPaperShotgun|link}}</ul>
-        </div>
+          <li class="feed">
+            <h2 class="fancy">Reddit/Programming</h2>
+            <ul class="comment-feed">
+              {% for entry in 'http://www.reddit.com/r/programming/.rss'|feed %}
+              <li>
+                <a class="link" href="{{entry.description|find_link(1)}}">{{entry.title}}</a>
+                <a class="comment" href="{{entry.link}}">Comments</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
 
-        <div class="interest-links">
-          <h2>Coding</h2>
-          {{http://www.littlehart.net/atthekeyboard/feed/,
-          http://feeds.feedburner.com/theendeavour,
-          http://eli.thegreenplace.net/feed/,
-          http://nedbatchelder.com/blog/rss.xml,
-          http://www.lostdecadegames.com/rss.xml,
-          http://meyerweb.com/index.php?feed=rss2&scope=summary,
-          http://www.codeofhonor.com/blog/feed,
-          http://feeds.feedburner.com/alistapart/main|show_ago}}
+          <li class="feed">
+            <h2>Rock Paper Shotgun</h2>
+            <ul>
+              {% for entry in 'http://feeds.feedburner.com/RockPaperShotgun'|feed %}
+              <li>
+                <a class="link" href="{{entry.link}}">{{entry.title}}</a>
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
 
-          <h2>Gaming</h2>
-          {{http://gamestorm.tumblr.com/rss,
-          http://feeds.feedburner.com/VenusPatrol,
-          http://feeds.wolfire.com/WolfireGames,
-          http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true,
-          http://feeds.feedburner.com/ARandomGnomesRandomLair,
-          http://blog.metagames.co.uk/feed/,
-          http://www.tigsource.com/feed/,
-          http://grumpygamer.com/rss2.0,
-          http://wasteland.inxile-entertainment.com/blog/feed/,
-          http://freegamer.blogspot.com/feeds/posts/default?alt=rss|show_ago}}
+          <li>
+            <h2>Coding</h2>
+            <ul class="link-list">
+              {% for entry in [
+                  'http://www.littlehart.net/atthekeyboard/feed/',
+                  'http://feeds.feedburner.com/theendeavour',
+                  'http://eli.thegreenplace.net/feed/',
+                  'http://nedbatchelder.com/blog/rss.xml',
+                  'http://www.lostdecadegames.com/rss.xml',
+                  'http://meyerweb.com/index.php?feed=rss2&scope=summary',
+                  'http://www.codeofhonor.com/blog/feed',
+                  'http://feeds.feedburner.com/alistapart/main'
+                ]|time_sort %}
+                {{ time_entry(entry) }}
+              {% endfor %}
+            </ul>
 
-          <h2>Art and Interests</h2>
-          {{http://feeds.feedburner.com/wwdn,
-          http://blog.iso50.com/feed/,
-          http://blog.gamemusicbundle.com/rss,
-          http://magicalgametime.com/rss,
-          http://simoncottee.blogspot.com/feeds/posts/default,
-          http://oktotally.tumblr.com/rss,
-          http://www.8bitpeoples.com/feed/feed.rss|show_ago}}
+          <li>
+            <h2>Gaming</h2>
+            <ul class="link-list">
+              {% for entry in [
+                'http://gamestorm.tumblr.com/rss',
+                'http://feeds.feedburner.com/VenusPatrol',
+                'http://feeds.wolfire.com/WolfireGames',
+                'http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true',
+                'http://feeds.feedburner.com/ARandomGnomesRandomLair',
+                'http://blog.metagames.co.uk/feed/',
+                'http://www.tigsource.com/feed/',
+                'http://grumpygamer.com/rss2.0',
+                'http://wasteland.inxile-entertainment.com/blog/feed/',
+                'http://freegamer.blogspot.com/feeds/posts/default?'
+              ]|time_sort %}
+                {{ time_entry(entry) }}
+              {% endfor %}
+            </ul>
+          </li>
 
-          <h2>Friends and Families</h2>
-          {{http://www.michaellesko.net/blog/?feed=rss2,
-          http://locke.notsoevil.net/?feed=rss2,
-          http://whatupderek.com/rss,
-          http://pwnguin.net/rss20.xml,
-          http://feeds.feedburner.com/ThePlasmaEngine|show_ago}}
-        </div>
+          <li>
+            <h2>Art and Interests</h2>
+            <ul class="link-list">
+              {% for entry in [
+                'http://feeds.feedburner.com/wwdn',
+                'http://blog.iso50.com/feed/',
+                'http://blog.gamemusicbundle.com/rss',
+                'http://magicalgametime.com/rss',
+                'http://simoncottee.blogspot.com/feeds/posts/default',
+                'http://oktotally.tumblr.com/rss',
+                'http://www.8bitpeoples.com/feed/feed.rss'
+              ]|time_sort %}
+                {{ time_entry(entry) }}
+              {% endfor %}
+            </ul>
+          </li>
 
-          <div class="pinboard">
+          <li>
+            <h2>Friends and Families</h2>
+            <ul class="link-list">
+              {% for entry in [
+                'http://www.michaellesko.net/blog/?feed=rss2',
+                'http://locke.notsoevil.net/?feed=rss2',
+                'http://whatupderek.com/rss',
+                'http://pwnguin.net/rss20.xml',
+                'http://feeds.feedburner.com/ThePlasmaEngine'
+              ]|time_sort %}
+                {{ time_entry(entry) }}
+              {% endfor %}
+            </ul>
+          </li>
+
+          <li class="pinboard">
             <h2>Pinboard</h2> 
-            <ul>{{http://feeds.pinboard.in/rss/u:jdcantrell|pinboard|10}}</ul>
-          </div>
+            <ul>
+              {% for entry in 'http://feeds.pinboard.in/rss/u:jdcantrell'|feed(10) %}
+              <li>
+                <a class="link" href="{{entry.link}}">{{entry.title}}</a>
+                {% if entry.description %}
+                  <span class="description">{{entry.description}}</span>
+                {% endif %}
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+        </ul>
       </div>
     </div>
       <footer>

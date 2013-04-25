@@ -1,73 +1,104 @@
 '''Ankh - will parse a template with {{http://somewhere/rss/feed|fn}} tags
 fetching the feeds and running the function on each item in the feed'''
-from optparse import OptionParser
-import feedparser
-import re
+import argparse
+import os
 import codecs
+import time
+import re
 
-import ankh_displays 
+from jinja2 import Environment, FileSystemLoader
+import feedparser
 
-def render(template, options):
-    '''based off http://effbot.org/zone/django-simple-template.htm
-    parses jinja2 like template tags of the form {{url|fn|count}}'''
-    nxt = iter(re.split("({{|}})", template)).next
-    data = []
-    try:
-        token = nxt()
-        while 1:
-            if token == "{{":  # variable
-                data.append(variable(nxt(), options))
-                if nxt() != "}}":
-                    raise SyntaxError("Missing variable terminator")
-            else:
-                data.append(token)  # literal
-            token = nxt()
-    except StopIteration:
-        pass
+def feed(url, count = 5):
+  if options.verbose:
+    print "Parsing %s" % url
+  feed = feedparser.parse(url)
+  return feed.entries[0:count]
 
-    return data
+def find_link(text, index = 0):
+  urls = re.findall(r'href="([^"]+)"', text) 
+  return urls[index]
 
+def time_sort(urls):
+    '''Display the entry with time posted prefixed'''
+    entries = []
+    time_list = {}
+    for url in urls:
+      if options.verbose:
+        print "Parsing %s" % url
 
-def variable(var, options):
-    '''This will parse a text between {{ and }} in a template'''
-    url = var.strip()
-    function = "simple"
-    count = 5
+      feed = feedparser.parse(url)
+      if len(feed.entries):
+        entry = feed.entries[0]
+        entry.feed_title = feed.feed.title.split('-')[0]
 
-    if "|" in var:
-        url, function = var.split("|", 1)
-        if "|" in function:
-            function, count = function.split("|", 1)
-            count = int(count.strip())
-    return ankh_displays.DISPLAY_FUNCTIONS[function](url, count, options)
-    return load_feed(url, ankh_displays.DISPLAY_FUNCTIONS[function], \
-            count, options)
-#End shameless code cut 'n paste
+        try:
+          published = entry.date_parsed
+        except AttributeError:
+          try:
+            published = entry.updated_parsed
+          except AttributeError:
+            try:
+              published = entry.published_parsed
+            except AttributeError:
+              published = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        ago = time.mktime(time.localtime()) - time.mktime(published)
+        #unique key
+        while time_list.has_key(ago):
+          ago += .1
+
+        time_list[ago] = True;
+
+        entry.time_raw = ago
+        if ago < 3600:
+          entry.time_length = 0
+          entry.time_unit = 'New!'
+        elif ago < 43200:
+          entry.time_length = int(round(ago / 3600))
+          entry.time_unit = 'hour'
+        elif ago < 2419200:
+          entry.time_length = int(round(ago / 86400))
+          entry.time_unit = 'day'
+        else:
+          entry.time_length = int(round(ago / 2419200))
+          entry.time_unit = 'month'
+
+        if entry.time_length > 1:
+          entry.time_unit += 's'
+
+        entries.append(entry)
+
+    if len(entries):
+      return sorted(entries, key = lambda k: k.time_raw)
+    else:
+      return []
 
 
 def main():
-    parser = OptionParser()
-    parser.add_option("-t", "--template", dest="template", \
-        help="Template file to load. Defaults to ankh.template", \
-        default="ankh.template")
-    parser.add_option("-o", "--outfile", dest="outfile", \
-        help="File to save the parsed template and feeds to. Defaults to \
-        ankh.html", default="ankh.html")
-    parser.add_option("-v", "--verbose", dest="verbose", \
-        help="Be verbose about what is going on", action="store_true",
-        default=False)
-    parser.add_option("-c", "--cache", dest="cache", \
-        help="Store and read from cache", action="store_true",
-        default=False)
+  env = Environment(loader=FileSystemLoader(os.getcwd()));
 
-    options = parser.parse_args()[0]
+  env.filters['feed'] = feed
+  env.filters['find_link'] = find_link
+  env.filters['time_sort'] = time_sort
 
-    template_file = codecs.open(options.template, "r", "utf-8")
-    template = template_file.read()
-    template_file.close()
-    output = render(template, options)
-    outfile = codecs.open(options.outfile, "w", "utf-8")
-    outfile.write(u''.join(output))
+  template = env.get_template(options.template);
+
+  outfile = codecs.open(options.outfile, "w", "utf-8")
+  outfile.write(template.render())
 
 if __name__ == "__main__":
-    main()
+  parser = argparse.ArgumentParser()
+  parser.add_argument("-t", "--template", dest="template", \
+    help="Template file to load. Defaults to ankh.template", \
+    default="ankh.template")
+  parser.add_argument("-o", "--outfile", dest="outfile", \
+    help="File to save the parsed template and feeds to. Defaults to \
+    ankh.html", default="ankh.html")
+  parser.add_argument("-v", "--verbose", dest="verbose", \
+    help="Be verbose about what is going on", action="store_true",
+    default=False)
+
+  global options
+  options = parser.parse_args()
+  main()
