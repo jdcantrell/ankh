@@ -5,14 +5,47 @@ import os
 import codecs
 import time
 import re
+import hashlib
 
 from jinja2 import Environment, FileSystemLoader
 import feedparser
+import requests
+
+'''Because jinja parses the template once when loaded and again when
+rendered, use a global flag to see if we should actually bother to
+fetch/load urls'''
+PARSE_URLS = False
+
+def _get_feed(url):
+  if PARSE_URLS:
+    md5 = hashlib.md5()
+    md5.update(url)
+
+    cache_file = '%s/%s' % (options.cache_path, md5.hexdigest())
+
+    if options.cache and os.path.exists(cache_file):
+      if options.verbose:
+        print "Loading from cache: %s" % url
+      cache_fh = open(cache_file, 'r')
+      data = cache_fh.read()
+      cache_fh.close()
+    else:
+      if options.verbose:
+        print "Fetching: %s" % url
+      data = url
+      if options.cache:
+        r = requests.get(url);
+        data = r.text
+        cache_fh = codecs.open(cache_file, "w", "utf-8")
+        cache_fh.write(data)
+        cache_fh.close()
+
+    return feedparser.parse(data)
+  else:
+    return []
 
 def feed(url, count = 5):
-  if options.verbose:
-    print "Parsing %s" % url
-  feed = feedparser.parse(url)
+  feed = _get_feed(url)
   return feed.entries[0:count]
 
 def find_link(text, index = 0):
@@ -24,10 +57,8 @@ def time_sort(urls):
     entries = []
     time_list = {}
     for url in urls:
-      if options.verbose:
-        print "Parsing %s" % url
+      feed = _get_feed(url)
 
-      feed = feedparser.parse(url)
       if len(feed.entries):
         entry = feed.entries[0]
         entry.feed_title = feed.feed.title.split('-')[0]
@@ -74,18 +105,26 @@ def time_sort(urls):
     else:
       return []
 
-
 def main():
-  env = Environment(loader=FileSystemLoader(os.getcwd()));
+  env = Environment(loader=FileSystemLoader(os.getcwd()))
 
   env.filters['feed'] = feed
   env.filters['find_link'] = find_link
   env.filters['time_sort'] = time_sort
 
-  template = env.get_template(options.template);
+  global PARSE_URLS
+  PARSE_URLS = False
 
+  print "Loading %s" % options.template
+  template = env.get_template(options.template)
+
+
+  print "Rendering..."
+
+  PARSE_URLS = True
   outfile = codecs.open(options.outfile, "w", "utf-8")
   outfile.write(template.render())
+  outfile.close()
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
@@ -98,7 +137,17 @@ if __name__ == "__main__":
   parser.add_argument("-v", "--verbose", dest="verbose", \
     help="Be verbose about what is going on", action="store_true",
     default=False)
+  parser.add_argument("-c", "--cache", dest="cache", \
+    help="Cache feeds", action="store_true",
+    default=False)
+  parser.add_argument("--cache_path", dest="cache_path", \
+    help="The directory to store cache files", default="./ankh_cache")
+
 
   global options
   options = parser.parse_args()
+
+  if options.cache:
+    if not os.path.exists(options.cache_path):
+      os.makedirs(options.cache_path)
   main()
