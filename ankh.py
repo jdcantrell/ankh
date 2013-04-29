@@ -1,6 +1,7 @@
 '''Ankh - will parse a template with {{http://somewhere/rss/feed|fn}} tags
 fetching the feeds and running the function on each item in the feed'''
 import argparse
+import sys
 import os
 import codecs
 import time
@@ -106,7 +107,10 @@ def time_sort(urls):
       return []
 
 def main():
-  env = Environment(loader=FileSystemLoader(os.getcwd()))
+  full_path = os.path.abspath(options.template)
+  path = os.path.dirname(full_path)
+
+  env = Environment(loader=FileSystemLoader(path))
 
   env.filters['feed'] = feed
   env.filters['find_link'] = find_link
@@ -116,7 +120,7 @@ def main():
   PARSE_URLS = False
 
   print "Loading %s" % options.template
-  template = env.get_template(options.template)
+  template = env.get_template(full_path.replace(path + '/', ""))
 
 
   print "Rendering..."
