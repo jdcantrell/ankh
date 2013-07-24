@@ -126,8 +126,9 @@ def main():
   print "Rendering..."
 
   PARSE_URLS = True
+  html = template.render()
   outfile = codecs.open(options.outfile, "w", "utf-8")
-  outfile.write(template.render())
+  outfile.write(html)
   outfile.close()
 
 if __name__ == "__main__":
