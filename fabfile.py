@@ -3,8 +3,9 @@ from fabric.api import local, run, cd
 from fabric.decorators import hosts
 from fabric.colors import green, blue, red
 
-code_dir = "/home/jdcantrell/goodrobot.net"
-stream_dir = "/home/jdcantrell/Projects/ankh"
+code_dir = "/srv/http/goodrobot"
+stream_dir = "/home/jd/Projects/ankh"
+  
   
 
 def build():
@@ -29,8 +30,8 @@ def regen():
 def _regen():
   with cd(stream_dir):
     print(blue("Generating page..."))
-    run("mkdir -p %s/_site/stream" % code_dir)
-    run("python ankh.py -t goodrobot.template.html -o %s/_site/stream/index.html -v" % code_dir)
+    run("mkdir -p %s/stream" % code_dir)
+    run("python ankh.py -t goodrobot.template.html -o %s/stream/index.html -v" % code_dir)
     print(green("Page generated at http://goodrobot.net/stream"))
 
 
