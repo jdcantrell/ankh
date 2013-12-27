@@ -4,7 +4,7 @@ from fabric.decorators import hosts
 from fabric.colors import green, blue, red
 
 code_dir = "/home/jdcantrell/goodrobot.net"
-stream_dir = "/home/jdcantrell/ankh"
+stream_dir = "/home/jdcantrell/Projects/ankh"
   
 
 def build():
