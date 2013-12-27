@@ -4,7 +4,7 @@
     {{entry.title}}
     <span>{{entry.feed_title}}</span>
 </a>
-  <span class="time-ago">
+  <span class="text-fade time-ago">
     {% if entry.time_unit == "New!" %}
     <i class="fa fa-star"></i>
     {% else %}
@@ -50,7 +50,7 @@
       }
 
       .touch {
-        margin-bottom: 50px;
+        margin-bottom: 20px;
       }
       h2 {margin-bottom: 0;}
     </style>
@@ -71,6 +71,7 @@
     <div class="content">
 
       <h2>Hacker News</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in 'http://news.ycombinator.com/rss'|feed %}
         <li>
@@ -83,6 +84,7 @@
       </ul>
 
       <h2 >Reddit/Programming</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in 'http://www.reddit.com/r/programming/.rss'|feed %}
           <li>
@@ -95,6 +97,7 @@
       </ul>
 
       <h2>Rock Paper Shotgun</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-list">
         {% for entry in 'http://feeds.feedburner.com/RockPaperShotgun'|feed %}
         <li>
@@ -104,6 +107,7 @@
       </ul>
 
       <h2>Coding</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in [
             'http://www.littlehart.net/atthekeyboard/feed/',
@@ -120,6 +124,7 @@
       </ul>
 
       <h2>Gaming</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in [
           'http://gamestorm.tumblr.com/rss',
@@ -138,6 +143,7 @@
       </ul>
 
       <h2>Art and Interests</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in [
           'http://feeds.feedburner.com/wwdn',
@@ -153,6 +159,7 @@
       </ul>
 
       <h2>Friends and Families</h2>
+      <hr class="hr-fancy">
       <ul class="touch touch-table">
         {% for entry in [
           'http://www.michaellesko.net/blog/?feed=rss2',
@@ -167,6 +174,7 @@
       </ul>
 
       <h2>Pinboard</h2> 
+      <hr class="hr-fancy">
       <ul class="touch touch-list">
         {% for entry in 'http://feeds.pinboard.in/rss/u:jdcantrell'|feed(10) %}
         <li>
