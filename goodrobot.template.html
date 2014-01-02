@@ -19,8 +19,10 @@
   <head>
     <title>Links and Things</title>
     <meta name="viewport" content="width=device-width">
-
+<!--
     <link type="text/css" rel="stylesheet" href="http://static.goodrobot.net/gxl/gxl.min.css">
+    -->
+    <link type="text/css" rel="stylesheet" href="http://gxl.dev/build/gxl.css">
     <link href='http://fonts.googleapis.com/css?family=Gentium+Basic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
@@ -54,13 +56,12 @@
 
       /* overrides and tweaks */
       .touch {
-        margin-bottom: 20px;
+        margin-bottom: 35px;
       }
-      .touch-list, .touch-table {
+      .touch-list li a:first-child, .touch-table li a:first-child {
         padding-left: .5em;
       }
 
-      h2 {margin-bottom: 0;}
     </style>
   </head>
   <body>
@@ -78,8 +79,7 @@
 
     <div class="readable-content content">
 
-      <h2>Hacker News</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Hacker News</h2>
       <ul class="touch touch-table">
         {% for entry in 'http://news.ycombinator.com/rss'|feed %}
         <li>
@@ -91,8 +91,7 @@
         {% endfor %}
       </ul>
 
-      <h2 >Reddit/Programming</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Reddit/Programming</h2>
       <ul class="touch touch-table">
         {% for entry in 'http://www.reddit.com/r/programming/.rss'|feed %}
           <li>
@@ -104,8 +103,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Rock Paper Shotgun</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Rock Paper Shotgun</h2>
       <ul class="touch touch-list">
         {% for entry in 'http://feeds.feedburner.com/RockPaperShotgun'|feed %}
         <li>
@@ -114,8 +112,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Coding</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Coding</h2>
       <ul class="touch touch-table">
         {% for entry in [
             'http://www.littlehart.net/atthekeyboard/feed/',
@@ -131,8 +128,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Gaming</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Gaming</h2>
       <ul class="touch touch-table">
         {% for entry in [
           'http://gamestorm.tumblr.com/rss',
@@ -150,8 +146,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Art and Interests</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Art and Interests</h2>
       <ul class="touch touch-table">
         {% for entry in [
           'http://feeds.feedburner.com/wwdn',
@@ -166,8 +161,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Friends and Families</h2>
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Friends and Families</h2>
       <ul class="touch touch-table">
         {% for entry in [
           'http://www.michaellesko.net/blog/?feed=rss2',
@@ -181,8 +175,7 @@
         {% endfor %}
       </ul>
 
-      <h2>Pinboard</h2> 
-      <hr class="hr-fancy">
+      <h2 class="hr-fancy">Pinboard</h2> 
       <ul class="touch touch-list">
         {% for entry in 'http://feeds.pinboard.in/rss/u:jdcantrell'|feed(10) %}
         <li>

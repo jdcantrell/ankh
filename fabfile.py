@@ -6,11 +6,11 @@ from fabric.colors import green, blue, red
 code_dir = "/srv/http/goodrobot"
 stream_dir = "/home/jd/Projects/ankh"
   
-  
+def fresh_build():
+  local("python ankh.py -t goodrobot.template.html -o index.html -v")
 
 def build():
-  local("mkdir -p ../goodrobot.net/_site/stream/")
-  local("python ankh.py -t goodrobot.template.html -o index.html -v")
+  local("python ankh.py -t goodrobot.template.html -c -o index.html -v")
 
 @hosts('jd@goodrobot.net')
 def deploy():
