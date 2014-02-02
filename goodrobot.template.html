@@ -23,7 +23,7 @@
     <link href='http://fonts.googleapis.com/css?family=Gentium+Basic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    
+
 
     <link rel="icon" type="image/png" href="/images/favicon.png">
 
@@ -33,7 +33,7 @@
     <style type="text/css">
 
       /* custom stuff */
-      a.comment { 
+      a.comment {
         width: 70px;
         text-align: center;
         font-size: 30px;
@@ -64,10 +64,10 @@
   <body>
     <header class="goodrobot-header">
       <ul class="list-inline">
-        <li><a href="/about">About</a>
+        <li><a href="/pages/about">About</a>
         <li><a href="/">Blog</a>
         <li><a href="/stream">Links</a>
-        <li><a href="/projects">Projects</a>
+        <li><a href="/pages/projects">Projects</a>
       </ul>
       <a href="http://goodrobot.net">
         <img src="http://static.goodrobot.net/gxl/images/goodrobot.png">
@@ -172,7 +172,7 @@
         {% endfor %}
       </ul>
 
-      <h2 class="hr-fancy">Pinboard</h2> 
+      <h2 class="hr-fancy">Pinboard</h2>
       <ul class="touch touch-list">
         {% for entry in 'http://feeds.pinboard.in/rss/u:jdcantrell'|feed(10) %}
         <li>
