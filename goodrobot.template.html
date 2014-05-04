@@ -76,6 +76,18 @@
 
     <div class="readable-content content">
 
+      <h2 class="hr-fancy">Lobste.rs</h2>
+      <ul class="touch touch-table">
+        {% for entry in 'https://lobste.rs/rss'|feed %}
+        <li>
+          <a href="{{entry.link}}">{{entry.title}}</a>
+          <a class="comment" href="{{entry.comments}}">
+            <i class="fa fa-comment"></i>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+
       <h2 class="hr-fancy">Hacker News</h2>
       <ul class="touch touch-table">
         {% for entry in 'http://news.ycombinator.com/rss'|feed %}
@@ -100,23 +112,14 @@
         {% endfor %}
       </ul>
 
-      <h2 class="hr-fancy">Rock Paper Shotgun</h2>
-      <ul class="touch touch-list">
-        {% for entry in 'http://feeds.feedburner.com/RockPaperShotgun'|feed %}
-        <li>
-          <a class="link" href="{{entry.link}}">{{entry.title}}</a>
-        </li>
-        {% endfor %}
-      </ul>
-
       <h2 class="hr-fancy">Coding</h2>
       <ul class="touch touch-table">
         {% for entry in [
+            'http://lambda-the-ultimate.org/rss.xml',
             'http://www.littlehart.net/atthekeyboard/feed/',
             'http://feeds.feedburner.com/theendeavour',
             'http://eli.thegreenplace.net/feed/',
             'http://nedbatchelder.com/blog/rss.xml',
-            'http://www.lostdecadegames.com/rss.xml',
             'http://meyerweb.com/index.php?feed=rss2&scope=summary',
             'http://www.codeofhonor.com/blog/feed',
             'http://feeds.feedburner.com/alistapart/main'
@@ -128,15 +131,14 @@
       <h2 class="hr-fancy">Gaming</h2>
       <ul class="touch touch-table">
         {% for entry in [
+          'http://feeds.feedburner.com/RockPaperShotgun'
           'http://gamestorm.tumblr.com/rss',
           'http://feeds.feedburner.com/VenusPatrol',
           'http://feeds.wolfire.com/WolfireGames',
-          'http://forums.introversion.co.uk/defcon/introversion/rss.php?blog=true',
           'http://feeds.feedburner.com/ARandomGnomesRandomLair',
           'http://blog.metagames.co.uk/feed/',
           'http://www.tigsource.com/feed/',
           'http://grumpygamer.com/rss2.0',
-          'http://wasteland.inxile-entertainment.com/blog/feed/',
           'http://freegamer.blogspot.com/feeds/posts/default?'
         ]|time_sort %}
           {{ time_entry(entry) }}
@@ -146,6 +148,7 @@
       <h2 class="hr-fancy">Art and Interests</h2>
       <ul class="touch touch-table">
         {% for entry in [
+          'http://www.goodmath.org/blog/feed/',
           'http://feeds.feedburner.com/wwdn',
           'http://blog.iso50.com/feed/',
           'http://blog.gamemusicbundle.com/rss',
