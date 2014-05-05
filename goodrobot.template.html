@@ -1,19 +1,3 @@
-{% macro time_entry(entry) -%}
-<li>
-  <a href="{{entry.link}}">
-    {{entry.title}}
-    <span>{{entry.feed_title}}</span>
-</a>
-  <span class="text-fade time-ago">
-    {% if entry.time_unit == "New!" %}
-    <i class="fa fa-star"></i>
-    {% else %}
-    <i>{{entry.time_length}}</i>
-    {{entry.time_unit}}
-    {% endif %}
-  </span>
-</li>
-{% endmacro %}
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,7 +9,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 
-    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="icon" type="image/png" href="http://static.goodrobot.net/cdn/favicon.png">
 
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
@@ -62,6 +46,24 @@
     </style>
   </head>
   <body>
+
+{% macro time_entry(entry) -%}
+<li>
+  <a href="{{entry.link}}">
+    {{entry.title}}
+    <span>{{entry.feed_title}}</span>
+</a>
+  <span class="text-fade time-ago">
+    {% if entry.time_unit == "New!" %}
+    <i class="fa fa-star"></i>
+    {% else %}
+    <i>{{entry.time_length}}</i>
+    {{entry.time_unit}}
+    {% endif %}
+  </span>
+</li>
+{% endmacro %}
+
     <header class="goodrobot-header">
       <ul class="list-inline">
         <li><a href="/pages/about">About</a>
@@ -70,7 +72,7 @@
         <li><a href="/pages/projects">Projects</a>
       </ul>
       <a href="http://goodrobot.net">
-        <img src="http://static.goodrobot.net/gxl/images/goodrobot.png">
+        <img src="http://static.goodrobot.net/gxl/images/goodrobot.png" alt="goodrobot.net">
       </a>
     </header>
 
@@ -131,7 +133,7 @@
       <h2 class="hr-fancy">Gaming</h2>
       <ul class="touch touch-table">
         {% for entry in [
-          'http://feeds.feedburner.com/RockPaperShotgun'
+          'http://feeds.feedburner.com/RockPaperShotgun',
           'http://gamestorm.tumblr.com/rss',
           'http://feeds.feedburner.com/VenusPatrol',
           'http://feeds.wolfire.com/WolfireGames',
