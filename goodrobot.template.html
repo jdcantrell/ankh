@@ -139,8 +139,8 @@
           'http://feeds.wolfire.com/WolfireGames',
           'http://feeds.feedburner.com/ARandomGnomesRandomLair',
           'http://blog.metagames.co.uk/feed/',
-          'http://www.tigsource.com/feed/',
           'http://grumpygamer.com/rss2.0',
+          'http://midnightresistance.co.uk/rss.xml',
           'http://freegamer.blogspot.com/feeds/posts/default?'
         ]|time_sort %}
           {{ time_entry(entry) }}
@@ -167,11 +167,9 @@
       <ul class="touch touch-table">
         {% for entry in [
           'http://www.michaellesko.net/blog/?feed=rss2',
-          'http://locke.notsoevil.net/?feed=rss2',
           'http://whatupderek.com/rss',
           'http://sketch.bysusanlin.com/rss',
-          'http://pwnguin.net/rss20.xml',
-          'http://feeds.feedburner.com/ThePlasmaEngine'
+          'http://pwnguin.net/rss20.xml'
         ]|time_sort %}
           {{ time_entry(entry) }}
         {% endfor %}
