@@ -43,6 +43,15 @@
         padding-left: .5em;
       }
 
+      .touch::last-child {
+        margin-bottom: 0
+      }
+
+      .friend-link {
+        font-size: 12px;
+        text-align: right;
+      }
+
     </style>
   </head>
   <body>
@@ -189,7 +198,9 @@
         </li>
         {% endfor %}
       </ul>
-
+      <div class="friend-link">
+        Need to monitor some crons? Use <a href="https://cronitor.io/">Cronitor.io</a>
+      </div>
     </div>
   </body>
 </html>
