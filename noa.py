@@ -49,11 +49,10 @@ class noa:
 
     # if we have a 12hr then we need to double our index and adjust it
     # for it we want the night or day value
-    if layout_key.find('p12h'):
+    if layout_key.find('p12h') != -1:
       index = index * 2
       if night:
         index += 1
-
 
     if self.time_layouts.has_key(layout_key):
       if self.time_layouts[layout_key].has_key(index):
@@ -71,16 +70,9 @@ class noa:
         for time_val in times:
           #strip off time zone info
           if idx == 1:
-            # TODO: I think hour is always at 6am so if the time is 12am
-            # we're going to skip to the next day instead of the current
-            # day
-            t = time.strptime(time_val.text[0:-6], '%Y-%m-%dT%H:%M:%S')
-            #this time layout does not have info for today so skip ahead
-            if t > time.gmtime():
-              i += 1;
-            else:
-              if time_val.get('period-name') == 'Tonight' or time_val.get('period-name') == 'Overnight':
-                i += 1;
+            if time_val.get('period-name') != 'Today':
+              i += 1
+
           lut[i] = idx
           idx += 1
           i += 1
@@ -91,10 +83,27 @@ class noa:
 
 
   def temp(self):
-    xpath = "data/parameters/temperature[@type='apparent']/value"
+    xpath = "data[@type='current observations']/parameters/temperature[@type='apparent']/value"
     return self._get_element_text(xpath)
 
-  def max_temp(self, forecast = 0):
+  def condition(self):
+    xpath = "data[@type='current observations']/parameters/weather/weather-conditions"
+    el = self._get_element(xpath)
+    return el.get('weather-summary')
+
+  def dew_point(self):
+    xpath = "data[@type='current observations']/parameters/temperature[@type='dew point']/value"
+    return self._get_element_text(xpath)
+
+  def relative_humidity(self):
+    xpath = "data[@type='current observations']/parameters/humidity[@type='relative']/value"
+    return self._get_element_text(xpath)
+
+  def mbar(self):
+    xpath = "data[@type='current observations']/parameters/pressure[@type='barometer'][@units='inches of mercury']/value"
+    return float(self._get_element_text(xpath)) * 33.8638815
+
+  def forecast_max(self, forecast = 0):
     #0 is todays max temp, if none is returned that means there is no max temp
     index = self._get_forecast_index(forecast, "data/parameters/temperature[@type='maximum']")
     if index != None:
@@ -103,14 +112,18 @@ class noa:
 
     return None
 
-  def min_temp(self, forecast = 0):
+  def forecast_location(self):
+    xpath = "data[@type='forecast']/location/description"
+    return self._get_element_text(xpath)
+
+  def forecast_min(self, forecast = 0):
     index = self._get_forecast_index(forecast, "data/parameters/temperature[@type='minimum']")
     if index != None:
       xpath = "data/parameters/temperature[@type='minimum']/value[%d]" % (index)
       return self._get_element_text(xpath)
     return None
 
-  def percipitation(self, forecast = 0, night = False):
+  def forecast_percipitation(self, forecast = 0, night = False):
     index = self._get_forecast_index(forecast, "data/parameters/probability-of-precipitation", night)
     if index != None:
       xpath = 'data/parameters/probability-of-precipitation/value[%d]' % (index)
@@ -118,7 +131,7 @@ class noa:
     return None
     pass
 
-  def condition(self, forecast = 0, night = False):
+  def forecast_condition(self, forecast = 0, night = False):
     index = self._get_forecast_index(forecast, "data/parameters/weather", night)
     if index != None:
       xpath = 'data/parameters/weather/weather-conditions[%d]' % (index)
@@ -131,19 +144,25 @@ class noa:
 
 if __name__ == "__main__":
   w = noa(37.9064, -122.065)
-  print w.temp()
-  print "Today's High: %s" % w.max_temp(0)
-  print "Tomorrow's High: %s" % w.max_temp(1)
-  print "Today's Min: %s" % w.min_temp(0)
-  print "Tomorrow's Min: %s" % w.min_temp(1)
+  print w.forecast_location()
+  print "Temp: %s" % w.temp()
+  print "Conditions: %s" % w.condition()
+  print "Dew Point: %s" % w.dew_point()
+  print "Relative Humidity: %s%%" % w.relative_humidity()
+  print "Pressure: %r mbar" % w.mbar()
 
-  print "Today's Percipitation %%: %s" % w.percipitation(0, False)
-  print "Tomorrow's Percipitation %%: %s" % w.percipitation(1, False)
+  print "Today's High: %s" % w.forecast_max(0)
+  print "Tomorrow's High: %s" % w.forecast_max(1)
+  print "Today's Min: %s" % w.forecast_min(0)
+  print "Tomorrow's Min: %s" % w.forecast_min(1)
 
-  print "Today's Condition: %s" % w.condition(0, False)
-  print "Tonight's Condition: %s" % w.condition(0, True)
-  print "Tomorrow's Condition: %s" % w.condition(1, False)
-  print "Tomorrow Night's Condition: %s" % w.condition(1, True)
+  print "Today's Percipitation %%: %s" % w.forecast_percipitation(0, False)
+  print "Tomorrow's Percipitation %%: %s" % w.forecast_percipitation(1, False)
 
-  print "Tomorrow's Condition: %s" % w.condition(2, False)
-  print "Tomorrow Night's Condition: %s" % w.condition(2, True)
+  print "Today's Condition: %s" % w.forecast_condition(0, False)
+  print "Tonight's Condition: %s" % w.forecast_condition(0, True)
+  print "Tomorrow's Condition: %s" % w.forecast_condition(1, False)
+  print "Tomorrow Night's Condition: %s" % w.forecast_condition(1, True)
+
+  print "Tomorrow's Condition: %s" % w.forecast_condition(2, False)
+  print "Tomorrow Night's Condition: %s" % w.forecast_condition(2, True)
