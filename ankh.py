@@ -57,8 +57,9 @@ def find_link(text, index = 0):
 
 def weathers(latlngs):
   data = []
-  for lat, lng in latlngs:
-    data.append(noa(lat, lng))
+  if PARSE_URLS:
+    for lat, lng in latlngs:
+      data.append(noa(lat, lng))
 
   return data
 
