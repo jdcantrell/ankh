@@ -20,8 +20,6 @@ class noa:
   def _get_dwml(self):
     url = "http://forecast.weather.gov/MapClick.php?lat=%s&lon=%s&unit=0&lg=english&FcstType=dwml" % (self.lat, self.lng)
 
-    print url
-
     r = requests.get(url);
     if r.status_code == 200 and r.text.find('javascript') == -1:
       return r.text
