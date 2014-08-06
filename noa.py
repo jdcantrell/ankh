@@ -166,3 +166,25 @@ if __name__ == "__main__":
 
   print "Tomorrow's Condition: %s" % w.forecast_condition(2, False)
   print "Tomorrow Night's Condition: %s" % w.forecast_condition(2, True)
+
+
+  print "\n---------\n"
+  w = noa(45.52, -122.6819)
+  print w.forecast_location()
+  print "Temp: %s" % w.temp()
+  print "Conditions: %s" % w.condition()
+  print "Dew Point: %s" % w.dew_point()
+
+  print "\n---------\n"
+  w = noa(43.6167, -116.2)
+  print w.forecast_location()
+  print "Temp: %s" % w.temp()
+  print "Conditions: %s" % w.condition()
+  print "Dew Point: %s" % w.dew_point()
+
+  print "\n---------\n"
+  w = noa(38.7453, -94.8292)
+  print w.forecast_location()
+  print "Temp: %s" % w.temp()
+  print "Conditions: %s" % w.condition()
+  print "Dew Point: %s" % w.dew_point()

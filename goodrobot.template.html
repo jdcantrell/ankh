@@ -86,7 +86,6 @@
     </header>
 
     <div class="readable-content content">
-
       <h2 class="hr-fancy">Lobste.rs</h2>
       <ul class="touch touch-table">
         {% for entry in 'https://lobste.rs/rss'|feed %}
@@ -199,7 +198,17 @@
         {% endfor %}
       </ul>
       <div class="friend-link">
-        Need to monitor some crons? Use <a href="https://cronitor.io/">Cronitor.io</a>
+        <ul class="list-inline" style="float:left">
+          <li>Walnut Creek, CA: {{ "37.9064,-122.065"|weather }}&deg;
+          <li>Portland, OR: {{ "45.52,-122.6819"|weather }}&deg;
+          <li>Boise, ID: {{ "43.6167,-116.2"|weather }}&deg;
+          <li>Spring Hill, KS: {{ "38.7453,-94.8292"|weather }}&deg;
+        </ul>
+
+        <div style="float:right">
+          Need to monitor some crons? Use <a href="https://cronitor.io/">Cronitor.io</a>
+        </div>
+        <br>
       </div>
     </div>
     <script>

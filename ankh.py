@@ -12,6 +12,8 @@ from jinja2 import Environment, FileSystemLoader
 import feedparser
 import requests
 
+from noa import noa
+
 '''Because jinja parses the template once when loaded and again when
 rendered, use a global flag to see if we should actually bother to
 fetch/load urls'''
@@ -50,8 +52,13 @@ def feed(url, count = 5):
   return feed.entries[0:count]
 
 def find_link(text, index = 0):
-  urls = re.findall(r'href="([^"]+)"', text) 
+  urls = re.findall(r'href="([^"]+)"', text)
   return urls[index]
+
+def weather(latlng):
+  lat, lng = map(float, latlng.split(','))
+  w = noa(lat, lng)
+  return w.temp()
 
 def time_sort(urls):
     '''Display the entry with time posted prefixed'''
@@ -115,6 +122,7 @@ def main():
   env.filters['feed'] = feed
   env.filters['find_link'] = find_link
   env.filters['time_sort'] = time_sort
+  env.filters['weather'] = weather
 
   global PARSE_URLS
   PARSE_URLS = False
