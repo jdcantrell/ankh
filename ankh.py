@@ -55,10 +55,12 @@ def find_link(text, index = 0):
   urls = re.findall(r'href="([^"]+)"', text)
   return urls[index]
 
-def weather(latlng):
-  lat, lng = map(float, latlng.split(','))
-  w = noa(lat, lng)
-  return w.temp()
+def weathers(latlngs):
+  data = []
+  for lat, lng in latlngs:
+    data.append(noa(lat, lng))
+
+  return data
 
 def time_sort(urls):
     '''Display the entry with time posted prefixed'''
@@ -122,7 +124,7 @@ def main():
   env.filters['feed'] = feed
   env.filters['find_link'] = find_link
   env.filters['time_sort'] = time_sort
-  env.filters['weather'] = weather
+  env.filters['weathers'] = weathers
 
   global PARSE_URLS
   PARSE_URLS = False

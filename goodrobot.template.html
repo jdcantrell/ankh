@@ -199,10 +199,14 @@
       </ul>
       <div class="friend-link">
         <ul class="list-inline" style="float:left">
-          <li>Walnut Creek, CA: {{ "37.9064,-122.065"|weather }}&deg;
-          <li>Portland, OR: {{ "45.52,-122.6819"|weather }}&deg;
-          <li>Boise, ID: {{ "43.6167,-116.2"|weather }}&deg;
-          <li>Spring Hill, KS: {{ "38.7453,-94.8292"|weather }}&deg;
+          {% for weather in [
+            (37.91583, -122.03583),
+            (45.52, -122.6819),
+            (43.6167, -116.2),
+            (38.7453, -94.8292)
+          ]|weathers %}
+            <li>{{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
+          {% endfor %}
         </ul>
 
         <div style="float:right">
