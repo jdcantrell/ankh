@@ -6,7 +6,6 @@
     <link type="text/css" rel="stylesheet" href="http://static.goodrobot.net/gxl/gxl.min.css">
     <link href='http://fonts.googleapis.com/css?family=Gentium+Basic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
 
     <link rel="icon" type="image/png" href="http://static.goodrobot.net/cdn/favicon.png">
@@ -52,6 +51,8 @@
         text-align: right;
       }
 
+      .no-icon { display: none }
+
     </style>
   </head>
   <body>
@@ -64,7 +65,7 @@
 </a>
   <span class="text-fade time-ago">
     {% if entry.time_unit == "New!" %}
-    <i class="fa fa-star"></i>
+    <i class="icon-star"></i>
     {% else %}
     <i>{{entry.time_length}}</i>
     {{entry.time_unit}}
@@ -92,7 +93,7 @@
         <li>
           <a href="{{entry.link}}">{{entry.title}}</a>
           <a class="comment" href="{{entry.comments}}">
-            <i class="fa fa-comment"></i>
+            <i class="icon-comment"></i>
           </a>
         </li>
         {% endfor %}
@@ -104,7 +105,7 @@
         <li>
           <a href="{{entry.link}}">{{entry.title}}</a>
           <a class="comment" href="{{entry.comments}}">
-            <i class="fa fa-comment"></i>
+            <i class="icon-comment"></i>
           </a>
         </li>
         {% endfor %}
@@ -116,7 +117,7 @@
           <li>
             <a class="link" href="{{entry.description|find_link(1)}}">{{entry.title}}</a>
             <a class="comment" href="{{entry.link}}">
-              <i class="fa fa-comment"></i>
+              <i class="icon-comment"></i>
             </a>
           </li>
         {% endfor %}
@@ -205,7 +206,7 @@
             (43.6167, -116.2),
             (38.7453, -94.8292)
           ]|weathers %}
-            <li>{{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
+          <li title="{{ weather.condition() }}"><i class="{{ weather|weather_icon }}"></i>{{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
           {% endfor %}
         </ul>
 

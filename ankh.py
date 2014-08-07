@@ -20,6 +20,7 @@ fetch/load urls'''
 PARSE_URLS = False
 
 def _get_feed(url):
+  global PARSE_URLS
   if PARSE_URLS:
     md5 = hashlib.md5()
     md5.update(url)
@@ -57,11 +58,23 @@ def find_link(text, index = 0):
 
 def weathers(latlngs):
   data = []
-  if PARSE_URLS:
-    for lat, lng in latlngs:
-      data.append(noa(lat, lng))
+  for lat, lng in latlngs:
+    data.append(noa(lat, lng))
 
   return data
+
+def weather_icon(noa):
+  classes = {
+    'na': 'no-icon',
+    'fair': 'icon-sun',
+    'a few clouds': 'icon-cloud-sun',
+    'overcast': 'icon-cloud'
+  }
+  key = noa.condition().lower()
+  if key in classes:
+    return classes[key];
+  else:
+    return 'icon-star %s' % key.lower().replace(' ', '-')
 
 def time_sort(urls):
     '''Display the entry with time posted prefixed'''
@@ -126,6 +139,7 @@ def main():
   env.filters['find_link'] = find_link
   env.filters['time_sort'] = time_sort
   env.filters['weathers'] = weathers
+  env.filters['weather_icon'] = weather_icon
 
   global PARSE_URLS
   PARSE_URLS = False
