@@ -68,7 +68,9 @@ def weather_icon(noa):
     'na': 'no-icon',
     'fair': 'icon-sun',
     'a few clouds': 'icon-cloud-sun',
-    'overcast': 'icon-cloud'
+    'overcast': 'icon-cloud',
+    'mostly cloudy': 'icon-cloud',
+    'partly cloudy': 'icon-cloud-sun'
   }
   key = noa.condition().lower()
   if key in classes:
