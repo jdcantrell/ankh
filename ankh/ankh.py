@@ -120,17 +120,12 @@ def find_link(text, index=0):
     return urls[index]
 
 
-def weathers(latlngs):
-    print "Getting weather..."
+def get_weather(latlngs):
     data = []
     for lat, lng in latlngs:
         data.append(noa(lat, lng))
 
     return data
-
-
-def weather_text(noa):
-    return noa.condition().lower()
 
 
 def time_sort(urls):
@@ -180,8 +175,7 @@ def parse(template, outfile, opts):
 
     env.globals['time_sort'] = time_sort
 
-    env.globals['weathers'] = weathers
-    env.filters['weather_text'] = weather_text
+    env.globals['get_weather'] = get_weather
 
     print "Loading %s" % template
     template = env.get_template(full_path.replace(path + '/', ""))

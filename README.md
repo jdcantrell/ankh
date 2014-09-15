@@ -8,13 +8,19 @@ some custom functions and filters.
 `pip install git+https://github.com/jdcantrell/ankh.git@master#egg=Ankh`
 
 ##Functions and filters
-`get_entries()` - for generating an iterator from a url:
+`get_entries()` - for generating a list from a url:
 
-```
+```html+django
 {% for entry in get_entries('http://goodorobot.net/rss') %}
-  {{ entry.title }}
+  <li>
+    <a href="{{entry.link}}">{{entry.title}}</a>
+    <a class="comment" href="{{entry.comments}}">
+      <i class="icon-comment"></i>
+    </a>
+  </li>
 {% endfor %}
 ```
+
 The entry is a feedparser object so anything available to feedparser is
 available here.
 
@@ -22,10 +28,10 @@ available here.
 within some text. It takes in a parameter for which link to return
 (0-indexed)
 
-`time_sort()` - Takes a group of urls and returns a list of entries
-sorted by most recent entry to oldest.
+`time_sort()` - Takes a list of urls, fetches the newest entry from each
+url, and then sorts them all together from most recent to oldest.
 
-```
+```html+django
 {% for entry in time_sort([
   'http://magicalgametime.com/rss',
   'http://simoncottee.blogspot.com/feeds/posts/default',
@@ -44,11 +50,10 @@ has four additional attributes:
 * entry.feed_title - the title of the feed for the current entry
 
 
-`get_weather()` - takes a list of lat lngs and will return an object for
-reading the weather using NOAA dwml.
+`get_weather()` - takes a list of latitudes, longitude pairs and will
+return an object for reading the weather (uses NOAA dwml).
 
-
-```
+```html+django
 {% for weather in get_weather([
   (37.91583, -122.03583),
   (45.52, -122.6819),
@@ -56,7 +61,6 @@ reading the weather using NOAA dwml.
   (38.7453, -94.8292)
 ]) %}
   <li title="{{ weather.condition() }}">
-    <i class="{{ weather_icon(weather|weather_text) }}"></i>
     {{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
   </li>
 {% endfor %}
@@ -64,7 +68,14 @@ reading the weather using NOAA dwml.
 
 ##Running
 
-Suggested use: `ankh -t my.template.html -o index.html`
+Suggested use: `ankh my.template.html index.html`
+
+Other flags:
+
+* `-c` - read and/or write cache files for each feed parsed (useful when
+  developing a template)
+* `--cache-path path` - specify the cache path, defaults to `.ankh_cahe`
+* `-v` - verbose, more details about what is going on
 
 Also works great in a cron :)
 
