@@ -1,4 +1,0 @@
-fabric
-feedparser
-jinja2
-requests
