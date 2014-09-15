@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+import ankh
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", "--template", dest="template", \
+  help="Template file to load. Defaults to ankh.template", \
+  default="ankh.template")
+parser.add_argument("-o", "--outfile", dest="outfile", \
+  help="File to save the parsed template and feeds to. Defaults to \
+  ankh.html", default="ankh.html")
+parser.add_argument("-v", "--verbose", dest="verbose", \
+  help="Be verbose about what is going on", action="store_true",
+  default=False)
+parser.add_argument("-c", "--cache", dest="cache", \
+  help="Cache feeds", action="store_true",
+  default=False)
+parser.add_argument("--cache_path", dest="cache_path", \
+  help="The directory to store cache files", default="./ankh_cache")
+
+
+global options
+options = parser.parse_args()
+
+if options.cache:
+  if not os.path.exists(options.cache_path):
+    os.makedirs(options.cache_path)
+ankh.main()
