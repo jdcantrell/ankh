@@ -1,7 +1,5 @@
 '''Ankh - will parse a template with {{http://somewhere/rss/feed|fn}} tags
 fetching the feeds and running the function on each item in the feed'''
-import argparse
-import sys
 import os
 import codecs
 import time
@@ -14,172 +12,183 @@ import requests
 
 from noa import noa
 
-'''Because jinja parses the template once when loaded and again when
-rendered, use a global flag to see if we should actually bother to
-fetch/load urls'''
-PARSE_URLS = False
+options = {}
 
-def _get_feed(url):
-  global PARSE_URLS
-  if PARSE_URLS:
+
+def _get_cache_file(url, path):
     md5 = hashlib.md5()
     md5.update(url)
 
-    cache_file = '%s/%s' % (options.cache_path, md5.hexdigest())
+    return '%s/%s' % (path, md5.hexdigest())
 
-    if options.cache and os.path.exists(cache_file):
-      if options.verbose:
-        print "Loading from cache: %s" % url
-      cache_fh = open(cache_file, 'r')
-      data = cache_fh.read()
-      cache_fh.close()
-    else:
-      if options.verbose:
-        print "Fetching: %s" % url
-      data = url
-      if options.cache:
-        r = requests.get(url);
-        data = r.text
-        cache_fh = codecs.open(cache_file, "w", "utf-8")
-        cache_fh.write(data)
+
+def _load_url_from_cache(url, cache_path):
+    cache_file = _get_cache_file(url, cache_path)
+    data = None
+
+    if os.path.exists(cache_file):
+        cache_fh = open(cache_file, 'r')
+        data = cache_fh.read()
         cache_fh.close()
 
+    return data
+
+
+def _load_url(url):
+    r = requests.get(url)
+    return r.text
+
+
+def _write_cache(url, text, cache_path):
+    cache_file = _get_cache_file(url, cache_path)
+
+    cache_fh = codecs.open(cache_file, "w", "utf-8")
+    cache_fh.write(text)
+    cache_fh.close()
+
+
+def _get_feed(url):
+    global options
+    data = None
+
+    if options.cache:
+        data = _load_url_from_cache(url, options.cache_path)
+
+    if data is None:
+        if options.verbose:
+            print "Fetching: %s" % url
+
+        data = _load_url(url)
+
+        if options.cache:
+            _write_cache(url, data, options.cache_path)
+
+    elif options.verbose:
+        print "Using cached version of %s" % url
+
     return feedparser.parse(data)
-  else:
-    return []
 
-def feed(url, count = 5):
-  feed = _get_feed(url)
-  return feed.entries[0:count]
 
-def find_link(text, index = 0):
-  urls = re.findall(r'href="([^"]+)"', text)
-  return urls[index]
+def _get_date(entry):
+    try:
+        return entry.date_parsed
+    except AttributeError:
+        pass
+
+    try:
+        return entry.updated_parsed
+    except AttributeError:
+        pass
+
+    try:
+        return entry.published_parsed
+    except AttributeError:
+        pass
+
+    return [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+
+def _pretty_time(ago):
+
+    if ago < 3600:
+        time_length = 0
+        time_unit = 'New!'
+    elif ago < 43200:
+        time_length = int(round(ago / 3600))
+        time_unit = 'hour'
+    elif ago < 2419200:
+        time_length = int(round(ago / 86400))
+        time_unit = 'day'
+    else:
+        time_length = int(round(ago / 2419200))
+        time_unit = 'month'
+
+    if time_length > 1:
+        time_unit += 's'
+
+    return (time_length, time_unit)
+
+
+#Template functions
+def get_entries(url, count=5):
+    feed = _get_feed(url)
+    return feed.entries[0:count]
+
+
+def find_link(text, index=0):
+    urls = re.findall(r'href="([^"]+)"', text)
+    return urls[index]
+
 
 def weathers(latlngs):
-  data = []
-  for lat, lng in latlngs:
-    data.append(noa(lat, lng))
+    print "Getting weather..."
+    data = []
+    for lat, lng in latlngs:
+        data.append(noa(lat, lng))
 
-  return data
+    return data
 
-def weather_icon(noa):
-  classes = {
-    'na': 'no-icon',
-    'fair': 'icon-sun',
-    'a few clouds': 'icon-cloud-sun',
-    'overcast': 'icon-cloud',
-    'mostly cloudy': 'icon-cloud',
-    'partly cloudy': 'icon-cloud-sun'
-  }
-  key = noa.condition().lower()
-  if key in classes:
-    return classes[key];
-  else:
-    return 'icon-star %s' % key.lower().replace(' ', '-')
+
+def weather_text(noa):
+    return noa.condition().lower()
+
 
 def time_sort(urls):
-    '''Display the entry with time posted prefixed'''
-    entries = []
-    time_list = {}
-    for url in urls:
-      feed = _get_feed(url)
+        '''Display the entry with time posted prefixed'''
+        entries = []
+        time_list = {}
+        for url in urls:
+            feed = _get_feed(url)
 
-      if len(feed.entries):
-        entry = feed.entries[0]
-        entry.feed_title = feed.feed.title.split('-')[0]
+            if len(feed.entries):
+                entry = feed.entries[0]
+                entry.feed_title = feed.feed.title.split('-')[0]
 
-        try:
-          published = entry.date_parsed
-        except AttributeError:
-          try:
-            published = entry.updated_parsed
-          except AttributeError:
-            try:
-              published = entry.published_parsed
-            except AttributeError:
-              published = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+                published = _get_date(entry)
 
-        ago = time.mktime(time.localtime()) - time.mktime(published)
-        #unique key
-        while time_list.has_key(ago):
-          ago += .1
+                ago = time.mktime(time.localtime()) - time.mktime(published)
+                #unique key
+                while ago in time_list:
+                    ago += .1
 
-        time_list[ago] = True;
+                time_list[ago] = True
 
-        entry.time_raw = ago
-        if ago < 3600:
-          entry.time_length = 0
-          entry.time_unit = 'New!'
-        elif ago < 43200:
-          entry.time_length = int(round(ago / 3600))
-          entry.time_unit = 'hour'
-        elif ago < 2419200:
-          entry.time_length = int(round(ago / 86400))
-          entry.time_unit = 'day'
+                entry.time_raw = ago
+                entry.time_length, entry.time_unit = _pretty_time(ago)
+                entries.append(entry)
+
+        if len(entries):
+            return sorted(entries, key=lambda k: k.time_raw)
         else:
-          entry.time_length = int(round(ago / 2419200))
-          entry.time_unit = 'month'
-
-        if entry.time_length > 1:
-          entry.time_unit += 's'
-
-        entries.append(entry)
-
-    if len(entries):
-      return sorted(entries, key = lambda k: k.time_raw)
-    else:
-      return []
-
-def main():
-  full_path = os.path.abspath(options.template)
-  path = os.path.dirname(full_path)
-
-  env = Environment(loader=FileSystemLoader(path))
-
-  env.filters['feed'] = feed
-  env.filters['find_link'] = find_link
-  env.filters['time_sort'] = time_sort
-  env.filters['weathers'] = weathers
-  env.filters['weather_icon'] = weather_icon
-
-  global PARSE_URLS
-  PARSE_URLS = False
-
-  print "Loading %s" % options.template
-  template = env.get_template(full_path.replace(path + '/', ""))
+            return []
 
 
-  print "Rendering..."
+def parse(template, outfile, opts):
+    global options
+    options = opts
+    if options.cache:
+        if not os.path.exists(options.cache_path):
+            os.makedirs(options.cache_path)
 
-  PARSE_URLS = True
-  html = template.render()
-  outfile = codecs.open(options.outfile, "w", "utf-8")
-  outfile.write(html)
-  outfile.close()
+    full_path = os.path.abspath(template)
+    path = os.path.dirname(full_path)
 
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser()
-  parser.add_argument("-t", "--template", dest="template", \
-    help="Template file to load. Defaults to ankh.template", \
-    default="ankh.template")
-  parser.add_argument("-o", "--outfile", dest="outfile", \
-    help="File to save the parsed template and feeds to. Defaults to \
-    ankh.html", default="ankh.html")
-  parser.add_argument("-v", "--verbose", dest="verbose", \
-    help="Be verbose about what is going on", action="store_true",
-    default=False)
-  parser.add_argument("-c", "--cache", dest="cache", \
-    help="Cache feeds", action="store_true",
-    default=False)
-  parser.add_argument("--cache_path", dest="cache_path", \
-    help="The directory to store cache files", default="./ankh_cache")
+    env = Environment(loader=FileSystemLoader(path))
 
+    env.globals['get_entries'] = get_entries
+    env.filters['find_link'] = find_link
 
-  global options
-  options = parser.parse_args()
+    env.globals['time_sort'] = time_sort
 
-  if options.cache:
-    if not os.path.exists(options.cache_path):
-      os.makedirs(options.cache_path)
-  main()
+    env.globals['weathers'] = weathers
+    env.filters['weather_text'] = weather_text
+
+    print "Loading %s" % template
+    template = env.get_template(full_path.replace(path + '/', ""))
+
+    print "Rendering..."
+
+    html = template.render()
+    outfile = codecs.open(outfile, "w", "utf-8")
+    outfile.write(html)
+    outfile.close()
