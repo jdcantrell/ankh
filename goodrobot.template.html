@@ -74,6 +74,16 @@
 </li>
 {% endmacro %}
 
+{% macro weather_icon(text) -%}
+  {% if text == 'NA' %}no-icon{% endif %}
+  {% if text == 'Fair' %}icon-sun{% endif %}
+  {% if text == 'A Few Clouds' %}icon-cloud-sun{% endif %}
+  {% if text == 'Overcast' %}icon-cloud{% endif %}
+  {% if text == 'Mostly Cloudy' %}icon-cloud{% endif %}
+  {% if text == 'Partly Cloudy' %}icon-cloud-sun{% endif %}
+{% endmacro %}
+
+
     <header class="goodrobot-header">
       <ul class="list-inline">
         <li><a href="/pages/about">About</a>
@@ -89,7 +99,7 @@
     <div class="readable-content content">
       <h2 class="hr-fancy">Lobste.rs</h2>
       <ul class="touch touch-table">
-        {% for entry in 'https://lobste.rs/rss'|feed %}
+        {% for entry in get_entries('https://lobste.rs/rss') %}
         <li>
           <a href="{{entry.link}}">{{entry.title}}</a>
           <a class="comment" href="{{entry.comments}}">
@@ -101,7 +111,7 @@
 
       <h2 class="hr-fancy">Hacker News</h2>
       <ul class="touch touch-table">
-        {% for entry in 'http://news.ycombinator.com/rss'|feed %}
+        {% for entry in get_entries('http://news.ycombinator.com/rss') %}
         <li>
           <a href="{{entry.link}}">{{entry.title}}</a>
           <a class="comment" href="{{entry.comments}}">
@@ -113,7 +123,7 @@
 
       <h2 class="hr-fancy">Reddit/Programming</h2>
       <ul class="touch touch-table">
-        {% for entry in 'http://www.reddit.com/r/programming/.rss'|feed %}
+        {% for entry in get_entries('http://www.reddit.com/r/programming/.rss') %}
           <li>
             <a class="link" href="{{entry.description|find_link(1)}}">{{entry.title}}</a>
             <a class="comment" href="{{entry.link}}">
@@ -125,7 +135,7 @@
 
       <h2 class="hr-fancy">Coding</h2>
       <ul class="touch touch-table">
-        {% for entry in [
+        {% for entry in time_sort([
             'http://lambda-the-ultimate.org/rss.xml',
             'http://www.littlehart.net/atthekeyboard/feed/',
             'http://feeds.feedburner.com/theendeavour',
@@ -134,14 +144,14 @@
             'http://meyerweb.com/index.php?feed=rss2&scope=summary',
             'http://www.codeofhonor.com/blog/feed',
             'http://feeds.feedburner.com/alistapart/main'
-          ]|time_sort %}
+          ]) %}
           {{ time_entry(entry) }}
         {% endfor %}
       </ul>
 
       <h2 class="hr-fancy">Gaming</h2>
       <ul class="touch touch-table">
-        {% for entry in [
+        {% for entry in time_sort([
           'http://feeds.feedburner.com/RockPaperShotgun',
           'http://gamestorm.tumblr.com/rss',
           'http://feeds.feedburner.com/VenusPatrol',
@@ -151,14 +161,14 @@
           'http://grumpygamer.com/rss2.0',
           'http://midnightresistance.co.uk/rss.xml',
           'http://freegamer.blogspot.com/feeds/posts/default?'
-        ]|time_sort %}
+        ]) %}
           {{ time_entry(entry) }}
         {% endfor %}
       </ul>
 
       <h2 class="hr-fancy">Art and Interests</h2>
       <ul class="touch touch-table">
-        {% for entry in [
+        {% for entry in time_sort([
           'http://www.goodmath.org/blog/feed/',
           'http://feeds.feedburner.com/wwdn',
           'http://blog.iso50.com/feed/',
@@ -168,26 +178,26 @@
           'http://simoncottee.blogspot.com/feeds/posts/default',
           'http://oktotally.tumblr.com/rss',
           'http://priceonomics.com/latest.rss'
-        ]|time_sort %}
+        ]) %}
           {{ time_entry(entry) }}
         {% endfor %}
       </ul>
 
       <h2 class="hr-fancy">Friends and Families</h2>
       <ul class="touch touch-table">
-        {% for entry in [
+        {% for entry in time_sort([
           'http://www.michaellesko.net/blog/?feed=rss2',
           'http://whatupderek.com/rss',
           'http://sketch.bysusanlin.com/rss',
           'http://pwnguin.net/rss20.xml'
-        ]|time_sort %}
+        ]) %}
           {{ time_entry(entry) }}
         {% endfor %}
       </ul>
 
       <h2 class="hr-fancy">Pinboard</h2>
       <ul class="touch touch-list">
-        {% for entry in 'http://feeds.pinboard.in/rss/u:jdcantrell'|feed(10) %}
+        {% for entry in get_entries('http://feeds.pinboard.in/rss/u:jdcantrell', 10) %}
         <li>
         <a href="{{entry.link}}">
           {{entry.title}}
@@ -200,13 +210,13 @@
       </ul>
       <div class="friend-link">
         <ul class="list-inline" style="float:left">
-          {% for weather in [
+          {% for weather in get_weather([
             (37.91583, -122.03583),
             (45.52, -122.6819),
             (43.6167, -116.2),
             (38.7453, -94.8292)
-          ]|weathers %}
-          <li title="{{ weather.condition() }}"><i class="{{ weather|weather_icon }}"></i>{{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
+          ]) %}
+          <li title="{{ weather.condition() }}"><i class="{{ weather_icon(weather.condition()) }}"></i>{{ weather.temp() }}&deg; in {{ weather.forecast_location() }}
           {% endfor %}
         </ul>
 
