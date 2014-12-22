@@ -109,7 +109,7 @@ def _pretty_time(ago):
     return (time_length, time_unit)
 
 
-#Template functions
+# Template functions
 def get_entries(url, count=5):
     feed = _get_feed(url)
     return feed.entries[0:count]
@@ -142,7 +142,7 @@ def time_sort(urls):
                 published = _get_date(entry)
 
                 ago = time.mktime(time.localtime()) - time.mktime(published)
-                #unique key
+                # unique key
                 while ago in time_list:
                     ago += .1
 
@@ -168,7 +168,9 @@ def parse(template, outfile, opts):
     full_path = os.path.abspath(template)
     path = os.path.dirname(full_path)
 
-    env = Environment(loader=FileSystemLoader(path))
+    opts.template_paths.append(path)
+
+    env = Environment(loader=FileSystemLoader(opts.template_paths))
 
     env.globals['get_entries'] = get_entries
     env.filters['find_link'] = find_link

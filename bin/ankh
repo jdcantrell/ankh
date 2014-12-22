@@ -39,7 +39,19 @@ parser.add_argument(
     default="./ankh_cache"
 )
 
+parser.add_argument(
+    "-t", "--template-paths",
+    dest="template_paths",
+    help="Additional template path, separated by comma",
+    default=None
+)
+
 
 options = parser.parse_args()
+
+if options.template_paths is None:
+    options.template_paths = []
+else:
+    options.template_paths = options.template_paths.split(',')
 
 ankh.parse(options.template, options.outfile, options)
