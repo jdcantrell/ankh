@@ -170,7 +170,10 @@ def parse(template, outfile, opts):
 
     opts.template_paths.append(path)
 
-    env = Environment(loader=FileSystemLoader(opts.template_paths))
+    env = Environment(
+        loader=FileSystemLoader(opts.template_paths),
+        autoescape=True
+    )
 
     env.globals['get_entries'] = get_entries
     env.filters['find_link'] = find_link
