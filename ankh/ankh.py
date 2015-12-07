@@ -129,7 +129,7 @@ def get_weather(latlngs):
     return data
 
 
-def time_sort(urls):
+def time_sort(urls, per_feed_count=1):
         '''Display the entry with time posted prefixed'''
         entries = []
         time_list = {}
@@ -137,21 +137,23 @@ def time_sort(urls):
             feed = _get_feed(url)
 
             if len(feed.entries):
-                entry = feed.entries[0]
-                entry.feed_title = feed.feed.title.split('-')[0]
+                feed_entries = feed.entries[:per_feed_count]
+                for entry in feed_entries:
+                    entry = feed.entries[0]
+                    entry.feed_title = feed.feed.title.split('-')[0]
 
-                published = _get_date(entry)
+                    published = _get_date(entry)
 
-                ago = time.mktime(time.localtime()) - time.mktime(published)
-                # unique key
-                while ago in time_list:
-                    ago += .1
+                    ago = time.mktime(time.localtime()) - time.mktime(published)
+                    # unique key
+                    while ago in time_list:
+                        ago += .1
 
-                time_list[ago] = True
+                    time_list[ago] = True
 
-                entry.time_raw = ago
-                entry.time_length, entry.time_unit = _pretty_time(ago)
-                entries.append(entry)
+                    entry.time_raw = ago
+                    entry.time_length, entry.time_unit = _pretty_time(ago)
+                    entries.append(entry)
 
         if len(entries):
             return sorted(entries, key=lambda k: k.time_raw)
