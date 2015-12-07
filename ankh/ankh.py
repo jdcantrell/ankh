@@ -6,6 +6,7 @@ import time
 import re
 import hashlib
 
+from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
 import feedparser
 import requests
@@ -158,6 +159,16 @@ def time_sort(urls):
             return []
 
 
+def find_images(html_string):
+    soup = BeautifulSoup(html_string, 'html.parser')
+
+    img_src = []
+    for img in soup.find_all('img'):
+        img_src.append(img.get('src'))
+
+    return img_src
+
+
 def parse(template, outfile, opts):
     global options
     options = opts
@@ -179,6 +190,7 @@ def parse(template, outfile, opts):
     env.filters['find_link'] = find_link
 
     env.globals['time_sort'] = time_sort
+    env.globals['images'] = find_images
 
     env.globals['get_weather'] = get_weather
 
