@@ -13,7 +13,7 @@ setup(
     install_requires=[
         'feedparser',
         'jinja2',
-        'beautifulsoup4'
+        'beautifulsoup4',
         'requests',
     ],
     zip_safe=False
