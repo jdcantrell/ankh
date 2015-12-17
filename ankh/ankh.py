@@ -38,10 +38,12 @@ def _load_url_from_cache(url, cache_path):
 def _load_url(url):
     try:
         r = requests.get(url)
+        return r.text
     except requests.exceptions.SSLError:
         print "SSL error while fetching: %s" % url
         pass
-    return r.text
+
+    return ''
 
 
 def _write_cache(url, text, cache_path):
