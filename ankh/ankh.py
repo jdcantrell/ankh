@@ -5,6 +5,8 @@ import codecs
 import time
 import re
 import hashlib
+import logging
+import StringIO
 
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
@@ -14,6 +16,13 @@ import requests
 from noa import noa
 
 options = {}
+
+logging.basicConfig(level=logging.ERROR)
+logger = logging.getLogger(__name__)
+
+log_stream = StringIO.StringIO()
+log_stream_handler = logging.StreamHandler(log_stream)
+logger.addHandler(log_stream_handler)
 
 
 def _get_cache_file(url, path):
@@ -39,10 +48,9 @@ def _load_url(url):
     try:
         r = requests.get(url)
         return r.text
-    except requests.exceptions.ConnectionError:
-        print "Could not connect to %s" % url
-    except requests.exceptions.SSLError:
-        print "SSL error while fetching: %s" % url
+    except requests.exceptions.RequestException as e:
+        logger.error("Could not fetch %s" % url)
+        logger.error("Exception was raised: %r" % e)
 
     return ''
 
@@ -148,9 +156,9 @@ def time_sort(urls, per_feed_count=1):
                 for entry in feed_entries:
                     entry.feed_title = feed.feed.title.split('-')[0]
 
-                    published = _get_date(entry)
+                    pub = _get_date(entry)
 
-                    ago = time.mktime(time.localtime()) - time.mktime(published)
+                    ago = time.mktime(time.localtime()) - time.mktime(pub)
                     # unique key
                     while ago in time_list:
                         ago += .1
@@ -165,6 +173,10 @@ def time_sort(urls, per_feed_count=1):
             return sorted(entries, key=lambda k: k.time_raw)
         else:
             return []
+
+
+def get_log():
+    return log_stream.getvalue()
 
 
 def find_images(html_string):
@@ -201,6 +213,7 @@ def parse(template, outfile, opts):
     env.globals['images'] = find_images
 
     env.globals['get_weather'] = get_weather
+    env.globals['log'] = get_log
 
     print "Loading %s" % template
     template = env.get_template(full_path.replace(path + '/', ""))
