@@ -1,9 +1,8 @@
 CHANGES.txt
 LICENSE.txt
 MANIFEST.in
-README.txt
-requirements.txt
 setup.py
+ankh/__init__.py
 ankh/ankh.py
 ankh/noa.py
 ankh.egg-info/PKG-INFO

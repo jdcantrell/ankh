@@ -39,9 +39,10 @@ def _load_url(url):
     try:
         r = requests.get(url)
         return r.text
+    except requests.exceptions.ConnectionError:
+        print "Could not connect to %s" % url
     except requests.exceptions.SSLError:
         print "SSL error while fetching: %s" % url
-        pass
 
     return ''
 

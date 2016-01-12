@@ -79,3 +79,11 @@ Other flags:
 
 Also works great in a cron :)
 
+
+##Development
+
+1. git clone
+2. make a virtualenv
+3. pip install -e .
+4. submit a pull request
+
