@@ -45,12 +45,14 @@ def _load_url_from_cache(url, cache_path):
 
 
 def _load_url(url):
-    try:
-        r = requests.get(url)
-        return r.text
-    except requests.exceptions.RequestException as e:
-        logger.error("Could not fetch %s" % url)
-        logger.error("Exception was raised: %r" % e)
+    for x in range(0, 3):
+        try:
+            r = requests.get(url)
+            return r.text
+        except requests.exceptions.RequestException as e:
+            logger.error("Could not fetch %s" % url)
+            logger.error("Exception was raised: %r" % e)
+        time.sleep(5)
 
     return ''
 
