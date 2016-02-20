@@ -45,14 +45,15 @@ def _load_url_from_cache(url, cache_path):
 
 
 def _load_url(url):
-    for x in range(0, 3):
-        try:
-            r = requests.get(url)
-            return r.text
-        except requests.exceptions.RequestException as e:
-            logger.error("Could not fetch %s" % url)
-            logger.error("Exception was raised: %r" % e)
-        time.sleep(5)
+    try:
+        headers = {
+            'User-Agent': 'linux:net.goodrobot.ankh:v0.0.1 (by /u/jdcantrell)'
+        }
+        r = requests.get(url, timeout=35, headers=headers)
+        return r.text
+    except requests.exceptions.RequestException as e:
+        logger.error("Could not fetch %s" % url)
+        logger.error("Exception was raised: %r" % e)
 
     return ''
 
