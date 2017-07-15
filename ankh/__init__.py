@@ -1,1 +1,1 @@
-from ankh import parse
+from .ankh import parse

@@ -6,21 +6,21 @@ import time
 import re
 import hashlib
 import logging
-import StringIO
+import io
 
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
 import feedparser
 import requests
 
-from noa import noa
+from .noa import noa
 
 options = {}
 
 logging.basicConfig(level=logging.ERROR)
 logger = logging.getLogger(__name__)
 
-log_stream = StringIO.StringIO()
+log_stream = io.StringIO()
 log_stream_handler = logging.StreamHandler(log_stream)
 logger.addHandler(log_stream_handler)
 
@@ -75,7 +75,7 @@ def _get_feed(url):
 
     if data is None:
         if options.verbose:
-            print "Fetching: %s" % url
+            print("Fetching: %s" % url)
 
         data = _load_url(url)
 
@@ -83,7 +83,7 @@ def _get_feed(url):
             _write_cache(url, data, options.cache_path)
 
     elif options.verbose:
-        print "Using cached version of %s" % url
+        print("Using cached version of %s" % url)
 
     return feedparser.parse(data)
 
@@ -218,10 +218,10 @@ def parse(template, outfile, opts):
     env.globals['get_weather'] = get_weather
     env.globals['log'] = get_log
 
-    print "Loading %s" % template
+    print("Loading %s" % template)
     template = env.get_template(full_path.replace(path + '/', ""))
 
-    print "Rendering..."
+    print("Rendering...")
 
     html = template.render()
     outfile = codecs.open(outfile, "w", "utf-8")

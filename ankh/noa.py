@@ -69,7 +69,7 @@ class noa:
                 idx = 1
                 i = 0
                 for time_val in times:
-                    #strip off time zone info
+                    # strip off time zone info
                     if idx == 1:
                         if time_val.get('period-name') != 'Today':
                             i += 1
@@ -161,47 +161,46 @@ class noa:
 
 if __name__ == "__main__":
     w = noa(37.9064, -122.065)
-    print w.forecast_location()
-    print "Temp: %s" % w.temp()
-    print "Conditions: %s" % w.condition()
-    print "Dew Point: %s" % w.dew_point()
-    print "Relative Humidity: %s%%" % w.relative_humidity()
-    print "Pressure: %r mbar" % w.mbar()
+    print(w.forecast_location())
+    print("Temp: %s" % w.temp())
+    print("Conditions: %s" % w.condition())
+    print("Dew Point: %s" % w.dew_point())
+    print("Relative Humidity: %s%%" % w.relative_humidity())
+    print("Pressure: %r mbar" % w.mbar())
 
-    print "Today's High: %s" % w.forecast_max(0)
-    print "Tomorrow's High: %s" % w.forecast_max(1)
-    print "Today's Min: %s" % w.forecast_min(0)
-    print "Tomorrow's Min: %s" % w.forecast_min(1)
+    print("Today's High: %s" % w.forecast_max(0))
+    print("Tomorrow's High: %s" % w.forecast_max(1))
+    print("Today's Min: %s" % w.forecast_min(0))
+    print("Tomorrow's Min: %s" % w.forecast_min(1))
 
-    print "Today's Percipitation %%: %s" % w.forecast_percipitation(0, False)
-    print "Tomorrow's Percipitation %%: %s" \
-        % w.forecast_percipitation(1, False)
+    print("Today's Percipitation %%: %s" % w.forecast_percipitation(0, False))
+    print("Tomorrow's Percipitation %%: %s" % w.forecast_percipitation(1, False))
 
-    print "Today's Condition: %s" % w.forecast_condition(0, False)
-    print "Tonight's Condition: %s" % w.forecast_condition(0, True)
-    print "Tomorrow's Condition: %s" % w.forecast_condition(1, False)
-    print "Tomorrow Night's Condition: %s" % w.forecast_condition(1, True)
+    print("Today's Condition: %s" % w.forecast_condition(0, False))
+    print("Tonight's Condition: %s" % w.forecast_condition(0, True))
+    print("Tomorrow's Condition: %s" % w.forecast_condition(1, False))
+    print("Tomorrow Night's Condition: %s" % w.forecast_condition(1, True))
 
-    print "Tomorrow's Condition: %s" % w.forecast_condition(2, False)
-    print "Tomorrow Night's Condition: %s" % w.forecast_condition(2, True)
+    print("Tomorrow's Condition: %s" % w.forecast_condition(2, False))
+    print("Tomorrow Night's Condition: %s" % w.forecast_condition(2, True))
 
-    print "\n---------\n"
+    print("\n---------\n")
     w = noa(45.52, -122.6819)
-    print w.forecast_location()
-    print "Temp: %s" % w.temp()
-    print "Conditions: %s" % w.condition()
-    print "Dew Point: %s" % w.dew_point()
+    print(w.forecast_location())
+    print("Temp: %s" % w.temp())
+    print("Conditions: %s" % w.condition())
+    print("Dew Point: %s" % w.dew_point())
 
-    print "\n---------\n"
+    print("\n---------\n")
     w = noa(43.6167, -116.2)
-    print w.forecast_location()
-    print "Temp: %s" % w.temp()
-    print "Conditions: %s" % w.condition()
-    print "Dew Point: %s" % w.dew_point()
+    print(w.forecast_location())
+    print("Temp: %s" % w.temp())
+    print("Conditions: %s" % w.condition())
+    print("Dew Point: %s" % w.dew_point())
 
-    print "\n---------\n"
+    print("\n---------\n")
     w = noa(38.7453, -94.8292)
-    print w.forecast_location()
-    print "Temp: %s" % w.temp()
-    print "Conditions: %s" % w.condition()
-    print "Dew Point: %s" % w.dew_point()
+    print(w.forecast_location())
+    print("Temp: %s" % w.temp())
+    print("Conditions: %s" % w.condition())
+    print("Dew Point: %s" % w.dew_point())
