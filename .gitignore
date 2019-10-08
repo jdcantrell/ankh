@@ -1,4 +1,4 @@
 *.html
 *.pyc
 cache
-ankh_cache
+ankh_cache.sqlite
