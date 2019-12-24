@@ -1,9 +1,5 @@
 import requests
-
-try:
-    import xml.etree.cElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as ET
 
 
 class noa:
@@ -19,12 +15,13 @@ class noa:
             self.tree = ET.fromstring(self.dwml)
 
     def _get_dwml(self):
-        url = "http://forecast.weather.gov/MapClick.php?" \
-            "lat=%s&lon=%s&unit=0&lg=english&FcstType=dwml" \
-            % (self.lat, self.lng)
+        url = (
+            "http://forecast.weather.gov/MapClick.php?"
+            "lat={}&lon={}&unit=0&lg=english&FcstType=dwml".format(self.lat, self.lng)
+        )
 
         r = requests.get(url)
-        if r.status_code == 200 and r.text.find('javascript') == -1:
+        if r.status_code == 200 and r.text.find("javascript") == -1:
             return r.text
         else:
             return None
@@ -46,11 +43,11 @@ class noa:
 
     def _get_forecast_index(self, index, key_xpath, night=False):
         key_el = self._get_element(key_xpath)
-        layout_key = key_el.get('time-layout')
+        layout_key = key_el.get("time-layout")
 
         # if we have a 12hr then we need to double our index and adjust it
         # for it we want the night or day value
-        if layout_key.find('p12h') != -1:
+        if layout_key.find("p12h") != -1:
             index = index * 2
             if night:
                 index += 1
@@ -63,15 +60,15 @@ class noa:
             layouts = self.tree.findall('data[@type="forecast"]/time-layout')
             for layout in list(layouts):
 
-                key = layout.find('layout-key').text
+                key = layout.find("layout-key").text
                 lut = {}
-                times = layout.findall('start-valid-time')
+                times = layout.findall("start-valid-time")
                 idx = 1
                 i = 0
                 for time_val in times:
                     # strip off time zone info
                     if idx == 1:
-                        if time_val.get('period-name') != 'Today':
+                        if time_val.get("period-name") != "Today":
                             i += 1
 
                     lut[i] = idx
@@ -82,85 +79,105 @@ class noa:
             return self._get_forecast_index(index, key_xpath)
 
     def temp(self):
-        xpath = "data[@type='current observations']/parameters/" \
+        xpath = (
+            "data[@type='current observations']/parameters/"
             "temperature[@type='apparent']/value"
+        )
         return self._get_element_text(xpath)
 
     def condition(self):
-        xpath = "data[@type='current observations']/parameters/" \
+        xpath = (
+            "data[@type='current observations']/parameters/"
             "weather/weather-conditions"
+        )
         el = self._get_element(xpath)
-        return el.get('weather-summary')
+        return el.get("weather-summary")
 
     def dew_point(self):
-        xpath = "data[@type='current observations']/parameters/" \
+        xpath = (
+            "data[@type='current observations']/parameters/"
             "temperature[@type='dew point']/value"
+        )
         return self._get_element_text(xpath)
 
     def relative_humidity(self):
-        xpath = "data[@type='current observations']/parameters/" \
+        xpath = (
+            "data[@type='current observations']/parameters/"
             "humidity[@type='relative']/value"
+        )
         return self._get_element_text(xpath)
 
     def mbar(self):
-        xpath = "data[@type='current observations']/parameters/" \
+        xpath = (
+            "data[@type='current observations']/parameters/"
             "pressure[@type='barometer'][@units='inches of mercury']/value"
-        return float(self._get_element_text(xpath)) * 33.8638815
+        )
+        try:
+            return float(self._get_element_text(xpath)) * 33.8638815
+        except ValueError:
+            return None
 
     def forecast_max(self, forecast=0):
         # 0 is todays max temp
         # if none is returned that means there is no max temp
         index = self._get_forecast_index(
-            forecast,
-            "data/parameters/temperature[@type='maximum']")
+            forecast, "data/parameters/temperature[@type='maximum']"
+        )
         if index is not None:
-            xpath = "data/parameters/" \
-                "temperature[@type='maximum']/value[%d]" % (index)
+            xpath = "data/parameters/" "temperature[@type='maximum']/value[%d]" % (
+                index
+            )
             return self._get_element_text(xpath)
 
         return None
 
     def forecast_location(self):
-        xpath = "data[@type='forecast']/location/description"
-        return self._get_element_text(xpath)
+        location = self._get_element_text("data[@type='forecast']/location/description")
+        if location is None:
+            location = self._get_element_text(
+                "data[@type='forecast']/location/area-description"
+            )
+
+        return location
 
     def forecast_min(self, forecast=0):
         index = self._get_forecast_index(
-            forecast,
-            "data/parameters/temperature[@type='minimum']")
+            forecast, "data/parameters/temperature[@type='minimum']"
+        )
         if index is not None:
-            xpath = "data/parameters/" \
-                "temperature[@type='minimum']/value[%d]" % (index)
+            xpath = "data/parameters/" "temperature[@type='minimum']/value[%d]" % (
+                index
+            )
             return self._get_element_text(xpath)
         return None
 
     def forecast_percipitation(self, forecast=0, night=False):
         index = self._get_forecast_index(
-            forecast,
-            "data/parameters/probability-of-precipitation",
-            night)
+            forecast, "data/parameters/probability-of-precipitation", night
+        )
         if index is not None:
-            xpath = "data/parameters/" \
-                "probability-of-precipitation/value[%d]" % (index)
+            xpath = "data/parameters/" "probability-of-precipitation/value[%d]" % (
+                index
+            )
             return self._get_element_text(xpath)
         return None
         pass
 
     def forecast_condition(self, forecast=0, night=False):
-        index = self._get_forecast_index(
-            forecast,
-            "data/parameters/weather",
-            night)
+        index = self._get_forecast_index(forecast, "data/parameters/weather", night)
         if index is not None:
-            xpath = 'data/parameters/weather/weather-conditions[%d]' % (index)
+            xpath = "data/parameters/weather/weather-conditions[%d]" % (index)
             el = self._get_element(xpath)
-            return el.get('weather-summary')
+            return el.get("weather-summary")
         return None
         pass
 
 
 if __name__ == "__main__":
-    w = noa(37.9064, -122.065)
+    # w = noa(37.9064, -122.065)
+    # w = noa(37.7771, -122.4196)
+    w = noa(37.99167, -122.05194)
+    #             (37.99167, -122.05194),
     print(w.forecast_location())
     print("Temp: %s" % w.temp())
     print("Conditions: %s" % w.condition())
