@@ -11,9 +11,10 @@ setup(
     scripts=["bin/ankh"],
     packages=["ankh"],
     install_requires=[
+        "beautifulsoup4",
         "feedparser",
         "jinja2",
-        "beautifulsoup4",
+        "pytz",
         "requests",
         "requests-cache",
     ],
