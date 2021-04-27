@@ -4,9 +4,10 @@ import os
 import codecs
 import time
 import re
-import hashlib
 import logging
 import io
+import pytz
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
@@ -183,7 +184,8 @@ def parse(template, outfile, opts):
 
     print("Rendering...")
 
-    html = template.render()
+    pacific_time = datetime.now(pytz.timezone("US/Pacific"))
+    html = template.render(timestamp=time.time(), date=pacific_time)
     outfile = codecs.open(outfile, "w", "utf-8")
     outfile.write(html)
     outfile.close()
