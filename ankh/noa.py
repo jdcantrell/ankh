@@ -10,7 +10,7 @@ class noa:
         self.time_layouts = {}
 
         if self.dwml is None:
-            self.tree = []
+            self.tree = None
         else:
             self.tree = ET.fromstring(self.dwml)
 

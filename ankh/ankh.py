@@ -30,7 +30,7 @@ logger.addHandler(log_stream_handler)
 def _load_url(url):
     try:
         headers = {"User-Agent": "linux:net.goodrobot.ankh:v0.0.1 (by /u/jdcantrell)"}
-        r = requests.get(url, timeout=35, headers=headers)
+        r = requests.get(url, timeout=60, headers=headers)
         return r.text
     except requests.exceptions.RequestException as e:
         logger.error("Could not fetch %s" % url)
@@ -96,6 +96,9 @@ def _pretty_time(ago):
 def get_entries(url, count=5):
     feed = _get_feed(url)
     return feed.entries[0:count]
+
+def get_date():
+    return datetime.now(pytz.timezone("US/Pacific"))
 
 
 def find_link(text, index=0):
@@ -178,6 +181,7 @@ def parse(template, outfile, opts):
 
     env.globals["get_weather"] = get_weather
     env.globals["log"] = get_log
+    env.globals["get_date"] = get_date
 
     print("Loading %s" % template)
     template = env.get_template(full_path.replace(path + "/", ""))
