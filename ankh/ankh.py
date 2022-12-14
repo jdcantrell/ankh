@@ -124,7 +124,10 @@ def time_sort(urls, per_feed_count=1):
         if len(feed.entries):
             feed_entries = feed.entries[:per_feed_count]
             for entry in feed_entries:
-                entry.feed_title = feed.feed.title.split("-")[0]
+                if 'title' in feed.feed:
+                    entry.feed_title = feed.feed.title.split("-")[0]
+                else:
+                    entry.feed_title = ''
 
                 pub = _get_date(entry)
 
