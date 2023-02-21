@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "ankh"
+version = "0.1.0"
+description = "a website"
+authors = ["JD Cantrell <jd@goodrobot.net>"]
+license = "GPL-3.0-only"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+feedparser = "*"
+jinja2 = "*"
+beautifulsoup4 = "*"
+requests = "*"
+requests-cache = "*"
+pytz = "*"
+
+
+[tool.poetry.dev-dependencies]
+flake8 = "*"
+black = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

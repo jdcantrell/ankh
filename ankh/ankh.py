@@ -11,6 +11,8 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
+from markupsafe import Markup, escape
+
 import feedparser
 import requests
 import requests_cache
@@ -97,6 +99,7 @@ def get_entries(url, count=5):
     feed = _get_feed(url)
     return feed.entries[0:count]
 
+
 def get_date():
     return datetime.now(pytz.timezone("US/Pacific"))
 
@@ -106,12 +109,34 @@ def find_link(text, index=0):
     return urls[index]
 
 
+def ignore_entities(text):
+    parts = re.split(r"(&#?[0-9A-Za-z]+;)", text)
+    escaped = []
+    for part in parts:
+        if "&" in part:
+            escaped.append(part)
+        else:
+            escaped.append(escape(part))
+
+    return Markup("".join(escaped))
+
+
 def get_weather(latlngs):
     data = []
     for lat, lng in latlngs:
         data.append(noa(lat, lng))
 
     return data
+
+
+def get_status(url):
+    headers = {"User-Agent": "linux:net.goodrobot.ankh:v0.0.1 (by /u/jdcantrell)"}
+    try:
+        r = requests.get(url, timeout=5, headers=headers)
+    except:
+        return "xxx"
+
+    return r.status_code
 
 
 def time_sort(urls, per_feed_count=1):
@@ -124,10 +149,10 @@ def time_sort(urls, per_feed_count=1):
         if len(feed.entries):
             feed_entries = feed.entries[:per_feed_count]
             for entry in feed_entries:
-                if 'title' in feed.feed:
+                if "title" in feed.feed:
                     entry.feed_title = feed.feed.title.split("-")[0]
                 else:
-                    entry.feed_title = ''
+                    entry.feed_title = ""
 
                 pub = _get_date(entry)
 
@@ -178,6 +203,7 @@ def parse(template, outfile, opts):
 
     env.globals["get_entries"] = get_entries
     env.filters["find_link"] = find_link
+    env.filters["ignore_entities"] = ignore_entities
 
     env.globals["time_sort"] = time_sort
     env.globals["images"] = find_images
@@ -185,6 +211,8 @@ def parse(template, outfile, opts):
     env.globals["get_weather"] = get_weather
     env.globals["log"] = get_log
     env.globals["get_date"] = get_date
+
+    env.globals["get_status"] = get_status
 
     print("Loading %s" % template)
     template = env.get_template(full_path.replace(path + "/", ""))
