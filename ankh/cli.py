@@ -1,0 +1,58 @@
+import ankh
+import argparse
+
+
+def run():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "template",
+        help="Template file to load. Defaults to ankh.template",
+    )
+
+    parser.add_argument(
+        "outfile",
+        help="File to save the parsed template and feeds to. Defaults" " to ankh.html",
+        default="ankh.html",
+    )
+
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        dest="verbose",
+        help="Be verbose about what is going on",
+        action="store_true",
+        default=False,
+    )
+
+    parser.add_argument(
+        "-c",
+        "--cache",
+        dest="cache",
+        help="Cache feeds",
+        action="store_true",
+        default=False,
+    )
+
+    parser.add_argument(
+        "--cache_path",
+        dest="cache_path",
+        help="The directory to store cache files",
+        default="./ankh_cache",
+    )
+
+    parser.add_argument(
+        "-t",
+        "--template-paths",
+        dest="template_paths",
+        help="Additional template path, separated by comma",
+        default=None,
+    )
+
+    options = parser.parse_args()
+
+    if options.template_paths is None:
+        options.template_paths = []
+    else:
+        options.template_paths = options.template_paths.split(",")
+
+    ankh.parse(options.template, options.outfile, options)

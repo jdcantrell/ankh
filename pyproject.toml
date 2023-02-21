@@ -4,6 +4,9 @@ version = "0.1.0"
 description = "a website"
 authors = ["JD Cantrell <jd@goodrobot.net>"]
 license = "GPL-3.0-only"
+  
+[tool.poetry.scripts]
+ankh = 'ankh.cli:run'
 
 [tool.poetry.dependencies]
 python = "^3.8"
