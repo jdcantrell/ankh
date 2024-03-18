@@ -9,7 +9,7 @@ license = "GPL-3.0-only"
 ankh = 'ankh.cli:run'
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.9"
 feedparser = "*"
 jinja2 = "*"
 beautifulsoup4 = "*"

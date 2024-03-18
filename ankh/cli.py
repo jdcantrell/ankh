@@ -1,18 +1,22 @@
 import ankh
 import argparse
+from itertools import zip_longest
 
 
 def run():
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "template",
-        help="Template file to load. Defaults to ankh.template",
+        help="Template files to load. Defaults to ankh.template",
+        nargs="+",
     )
 
     parser.add_argument(
-        "outfile",
-        help="File to save the parsed template and feeds to. Defaults" " to ankh.html",
-        default="ankh.html",
+        "-o",
+        "--output",
+        help="File to save the parsed template and feeds to. Defaults to input.html",
+        nargs="*",
+        default=[],
     )
 
     parser.add_argument(
@@ -55,4 +59,12 @@ def run():
     else:
         options.template_paths = options.template_paths.split(",")
 
-    ankh.parse(options.template, options.outfile, options)
+    print(options.template, options.output)
+
+    for template, outfile in zip_longest(
+        options.template, options.output, fillvalue="?"
+    ):
+        if outfile == "?":
+            outfile = f"{template}.html"
+
+        ankh.parse(template, outfile, options)

@@ -7,7 +7,8 @@ import re
 import logging
 import io
 import pytz
-from datetime import datetime
+import functools
+from datetime import datetime, timedelta
 
 from bs4 import BeautifulSoup
 from jinja2 import Environment, FileSystemLoader
@@ -29,10 +30,17 @@ log_stream_handler = logging.StreamHandler(log_stream)
 logger.addHandler(log_stream_handler)
 
 
+@functools.cache
 def _load_url(url):
+    global options
+    if options.verbose:
+        print("Fetching: %s" % url)
     try:
-        headers = {"User-Agent": "linux:net.goodrobot.ankh:v0.0.1 (by /u/jdcantrell)"}
-        r = requests.get(url, timeout=60, headers=headers)
+        headers = {
+            "User-Agent": "idk-testing",
+            "If-Modified-Since": "Wed, 21 Oct 2015 07:28:00 GMT",
+        }
+        r = requests.get(url, timeout=120, headers=headers)
         return r.text
     except requests.exceptions.RequestException as e:
         logger.error("Could not fetch %s" % url)
@@ -42,13 +50,9 @@ def _load_url(url):
 
 
 def _get_feed(url):
-    global options
     data = None
 
     if data is None:
-        if options.verbose:
-            print("Fetching: %s" % url)
-
         data = _load_url(url)
 
     return feedparser.parse(data)
@@ -70,11 +74,17 @@ def _get_date(entry):
     except AttributeError:
         pass
 
-    return [0, 0, 0, 0, 0, 0, 0, 0, 0]
+    return [1970, 1, 1, 0, 0, 0, 0, 1, 0]
+
+
+def _timestamp(date):
+    try:
+        return time.mktime(date)
+    except:
+        return 0
 
 
 def _pretty_time(ago):
-
     if ago < 3600:
         time_length = 0
         time_unit = "New!"
@@ -97,7 +107,11 @@ def _pretty_time(ago):
 # Template functions
 def get_entries(url, count=5):
     feed = _get_feed(url)
-    return feed.entries[0:count]
+    ss = sorted(
+        feed.entries, key=lambda entry: _timestamp(_get_date(entry)), reverse=True
+    )[0:count]
+
+    return ss
 
 
 def get_date():
@@ -147,7 +161,13 @@ def time_sort(urls, per_feed_count=1):
         feed = _get_feed(url)
 
         if len(feed.entries):
-            feed_entries = feed.entries[:per_feed_count]
+            # sort by date desc - not all feeds come in chronological order
+            feed_entries = sorted(
+                feed.entries,
+                key=lambda entry: _timestamp(_get_date(entry)),
+                reverse=True,
+            )[0:per_feed_count]
+
             for entry in feed_entries:
                 if "title" in feed.feed:
                     entry.feed_title = feed.feed.title.split("-")[0]
@@ -166,6 +186,8 @@ def time_sort(urls, per_feed_count=1):
                 entry.time_raw = ago
                 entry.time_length, entry.time_unit = _pretty_time(ago)
                 entries.append(entry)
+        else:
+            print(" ^^^ No entries found")
 
     if len(entries):
         return sorted(entries, key=lambda k: k.time_raw)
@@ -192,7 +214,12 @@ def parse(template, outfile, opts):
     options = opts
     if options.cache:
         print("Caching requests")
-        requests_cache.install_cache("ankh_cache", backend="sqlite")
+        requests_cache.install_cache(
+            "ankh_cache",
+            backend="sqlite",
+            expire_after=timedelta(days=1),
+            always_revalidate=True,
+        )
 
     full_path = os.path.abspath(template)
     path = os.path.dirname(full_path)
