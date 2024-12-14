@@ -1,5 +1,6 @@
 """Ankh - will parse a template with {{http://somewhere/rss/feed|fn}} tags
 fetching the feeds and running the function on each item in the feed"""
+
 import os
 import codecs
 import time
@@ -28,6 +29,10 @@ logger = logging.getLogger(__name__)
 log_stream = io.StringIO()
 log_stream_handler = logging.StreamHandler(log_stream)
 logger.addHandler(log_stream_handler)
+
+
+# force ip4 since ip6 in can be slow due to timeouts
+requests.packages.urllib3.util.connection.HAS_IPV6 = False
 
 
 @functools.cache

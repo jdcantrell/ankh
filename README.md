@@ -44,11 +44,11 @@ url, and then sorts them all together from most recent to oldest.
 
 Entries for `time_sort()` are also feedparser objects, it
 has four additional attributes:
-* entry.time_length - an integer
-* entry.time_unit - either hour(s), day(s) or month(s) or New!
-* entry.time_raw - the raw time value used to sort
-* entry.feed_title - the title of the feed for the current entry
 
+- entry.time_length - an integer
+- entry.time_unit - either hour(s), day(s) or month(s) or New!
+- entry.time_raw - the raw time value used to sort
+- entry.feed_title - the title of the feed for the current entry
 
 `get_weather()` - takes a list of latitudes, longitude pairs and will
 return an object for reading the weather (uses NOAA dwml).
@@ -72,18 +72,15 @@ Suggested use: `ankh my.template.html index.html`
 
 Other flags:
 
-* `-c` - read and/or write cache files for each feed parsed (useful when
+- `-c` - read and/or write cache files for each feed parsed (useful when
   developing a template)
-* `--cache-path path` - specify the cache path, defaults to `.ankh_cahe`
-* `-v` - verbose, more details about what is going on
+- `--cache-path path` - specify the cache path, defaults to `.ankh_cahe`
+- `-v` - verbose, more details about what is going on
 
 Also works great in a cron :)
-
 
 ##Development
 
 1. git clone
-2. make a virtualenv
-3. pip install -e .
-4. submit a pull request
-
+2. poetry install
+3. poetry run ankh -v test.template.html.j2
